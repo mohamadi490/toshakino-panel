@@ -1,0 +1,37 @@
+@import 'tailwindcss';
+
+/* Tailwind 4 CSS-first config: utilities consume the semantic design tokens. */
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-background: var(--ds-background);
+  --color-surface: var(--ds-surface);
+  --color-surface-muted: var(--ds-surface-muted);
+  --color-foreground: var(--ds-text);
+  --color-muted: var(--ds-text-muted);
+  --color-border: var(--ds-border);
+  --color-primary: var(--ds-primary);
+  --color-primary-contrast: var(--ds-primary-contrast);
+  --color-primary-soft: var(--ds-primary-soft);
+  --color-secondary: var(--ds-secondary);
+  --color-secondary-contrast: var(--ds-secondary-contrast);
+  --color-success: var(--ds-success);
+  --color-success-soft: var(--ds-success-soft);
+  --color-warning: var(--ds-warning);
+  --color-warning-soft: var(--ds-warning-soft);
+  --color-danger: var(--ds-danger);
+  --color-danger-soft: var(--ds-danger-soft);
+  --color-info: var(--ds-info);
+  --color-info-soft: var(--ds-info-soft);
+
+  --font-sans: var(--ds-font-family);
+  --radius-sm: var(--ds-radius-sm);
+  --radius-md: var(--ds-radius-md);
+  --radius-lg: var(--ds-radius-lg);
+  --shadow-card: var(--ds-shadow-card);
+  --shadow-overlay: var(--ds-shadow-overlay);
+}
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));

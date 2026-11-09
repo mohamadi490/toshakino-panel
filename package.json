@@ -1,0 +1,49 @@
+{
+  "name": "toshakino-panel",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test --watch=false",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.spec.json --noEmit",
+    "test:watch": "ng test",
+    "format": "prettier --write \"src/**/*.{ts,css,html,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,css,html,json}\"",
+    "check:cycles": "node scripts/check-cycles.mjs",
+    "verify": "npm run lint && npm run typecheck && npm run check:cycles && npm run test && npm run build"
+  },
+  "private": true,
+  "packageManager": "npm@10.9.9",
+  "dependencies": {
+    "@angular/common": "^22.2.0",
+    "@angular/compiler": "^22.2.0",
+    "@angular/core": "^22.2.0",
+    "@angular/forms": "^22.2.0",
+    "@angular/platform-browser": "^22.2.0",
+    "@angular/router": "^22.2.0",
+    "@tailwindcss/postcss": "^4.3.5",
+    "postcss": "^8.5.32",
+    "rxjs": "~7.8.0",
+    "tailwindcss": "^4.3.5",
+    "tslib": "^2.3.0",
+    "vazirmatn": "^33.0.3"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.2.6",
+    "@angular/cli": "^22.2.6",
+    "@angular/compiler-cli": "^22.2.0",
+    "angular-eslint": "^22.6.0",
+    "eslint": "^9.39.5",
+    "jsdom": "^30.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.72.2",
+    "vitest": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

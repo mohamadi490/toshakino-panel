@@ -1,0 +1,35 @@
+/*
+ * Design tokens that do not change between themes.
+ * Colour tokens live in themes.css (they differ per theme).
+ */
+:root {
+  --ds-font-family: 'Vazirmatn', 'Tahoma', system-ui, sans-serif;
+
+  --ds-font-weight-regular: 400;
+  --ds-font-weight-medium: 500;
+  --ds-font-weight-semibold: 600;
+  --ds-font-weight-bold: 700;
+
+  --ds-radius-sm: 0.375rem;
+  --ds-radius-md: 0.625rem;
+  --ds-radius-lg: 1rem;
+
+  --ds-space-1: 0.25rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-4: 1rem;
+  --ds-space-6: 1.5rem;
+  --ds-space-8: 2rem;
+
+  --ds-z-sidebar: 30;
+  --ds-z-header: 40;
+  --ds-z-dropdown: 50;
+  --ds-z-modal: 60;
+  --ds-z-toast: 70;
+
+  --ds-sidebar-width: 16rem;
+  --ds-sidebar-width-collapsed: 4.5rem;
+  --ds-header-height: 3.5rem;
+
+  --ds-focus-ring: 0 0 0 3px var(--ds-focus-color);
+}

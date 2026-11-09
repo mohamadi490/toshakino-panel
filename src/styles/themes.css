@@ -1,0 +1,64 @@
+/*
+ * Colour themes. Brand overrides (--brand-*) are injected at runtime by
+ * BrandService from the admin brand settings; the fallbacks below are the
+ * safe default palette that keeps the UI readable when the API fails.
+ * Appearance (light/dark) only toggles [data-theme] and never touches --brand-*.
+ */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --ds-background: #f5f6fa;
+  --ds-surface: #ffffff;
+  --ds-surface-muted: #eef0f6;
+  --ds-text: #171a2b;
+  --ds-text-muted: #565c76;
+  --ds-border: #dde0ec;
+
+  --ds-primary: var(--brand-primary, #3f4c9a);
+  --ds-primary-contrast: #ffffff;
+  --ds-primary-soft: color-mix(in srgb, var(--ds-primary) 12%, var(--ds-surface));
+  --ds-secondary: var(--brand-secondary, #2f7f86);
+  --ds-secondary-contrast: #ffffff;
+
+  --ds-success: #1e7f4f;
+  --ds-success-soft: #e3f4eb;
+  --ds-warning: #8f5200;
+  --ds-warning-soft: #fdf0dc;
+  --ds-danger: #b3261e;
+  --ds-danger-soft: #fbe6e4;
+  --ds-info: #1f5fa8;
+  --ds-info-soft: #e2edf9;
+
+  --ds-focus-color: color-mix(in srgb, var(--ds-primary) 35%, transparent);
+  --ds-shadow-card: 0 1px 2px rgb(23 26 43 / 0.06), 0 1px 1px rgb(23 26 43 / 0.04);
+  --ds-shadow-overlay: 0 12px 32px rgb(23 26 43 / 0.18);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ds-background: #0e1120;
+  --ds-surface: #161a2e;
+  --ds-surface-muted: #1e2340;
+  --ds-text: #e8eaf5;
+  --ds-text-muted: #9ca2c0;
+  --ds-border: #2b3154;
+
+  --ds-primary: var(--brand-primary-dark, #8c9bff);
+  --ds-primary-contrast: #0e1120;
+  --ds-primary-soft: color-mix(in srgb, var(--ds-primary) 18%, var(--ds-surface));
+  --ds-secondary: var(--brand-secondary-dark, #5fc0c8);
+  --ds-secondary-contrast: #0e1120;
+
+  --ds-success: #5fd196;
+  --ds-success-soft: #123326;
+  --ds-warning: #f0b45c;
+  --ds-warning-soft: #3a2a0f;
+  --ds-danger: #ff8a82;
+  --ds-danger-soft: #3d1816;
+  --ds-info: #7eb6f2;
+  --ds-info-soft: #14283f;
+
+  --ds-focus-color: color-mix(in srgb, var(--ds-primary) 45%, transparent);
+  --ds-shadow-card: 0 1px 2px rgb(0 0 0 / 0.4);
+  --ds-shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.5);
+}

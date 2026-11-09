@@ -1,0 +1,25 @@
+import { Injectable, computed, inject } from '@angular/core';
+import { AuthStore } from '../auth/auth.store';
+import { PermissionRequirement } from '../authorization/permissions';
+
+export interface NavItem {
+  id: string;
+  label: string;
+  route: string;
+  icon: string; // key in shared icon set
+  permissions?: PermissionRequirement; // undefined => any authenticated admin
+}
+
+/**
+ * Menu registry. Only IMPLEMENTED routes are listed (a menu item without a
+ * guarded route is a bug). Each feature phase appends its entries here.
+ */
+export const NAV_ITEMS: readonly NavItem[] = [
+  { id: 'dashboard', label: 'داشبورد', route: '/dashboard', icon: 'home' },
+];
+
+@Injectable({ providedIn: 'root' })
+export class NavigationService {
+  private readonly store = inject(AuthStore);
+  readonly items = computed(() => NAV_ITEMS.filter((i) => this.store.can(i.permissions)));
+}
