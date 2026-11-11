@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { Permissions } from '../../core/authorization/permissions';
 import { ConfirmService } from '../../shared/ui/confirm';
 import { UsersListPage } from './users-list.page';
-import { expectApi, page, signIn } from './testing';
+import { expectApi, page, signIn } from '../../../testing/api-test-utils';
 
 const user = (id: string, isActive = true) => ({
   id,

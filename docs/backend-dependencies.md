@@ -28,6 +28,16 @@ No OpenAPI file exists yet, so Phase 0 code follows `BACKEND-REQUIREMENTS.md` an
 | 12 | `GET /admin/permissions` returns `[{key, group, label?, description?}]` | role matrix |
 | 13 | Validation errors use `fieldErrors` keyed by the same camelCase field names as the request body | `applyFieldErrors` |
 
+## ASSUMED - categories (Phase 1, catalog)
+| # | Assumption | Where used |
+|---|---|---|
+| 14 | `GET /admin/categories` returns a flat list `{id, parentId\|null, slug, title, description?, status, sortOrder, seoTitle?, seoDescription?, canonicalUrl?, productCount?}`; the UI builds the tree and requests `pageSize=500` (ask: a non-paginated or `?tree=true` form) | list + form |
+| 15 | Publish status values are `draft`, `published`, `archived` (same for products/pages) | `PublishStatus` |
+| 16 | No `GET /admin/categories/{id}` and no DELETE in the contract: forms read from the list; removal = `status: archived` | category form |
+| 17 | `POST/PATCH` take the full field set above; slug conflicts return 409 with `fieldErrors.slug`; slug change creates the redirect server-side | category form |
+
+Backend must also enforce (UI does not): category cycles (a parent cannot be a descendant), slug uniqueness, redirect-chain avoidance, archiving a category that still has published products.
+
 Backend must also enforce (UI does not): users cannot disable themselves or remove the last super-admin; system roles cannot be renamed/deleted; assigning roles/permissions the caller does not hold (privilege escalation) is rejected.
 
 ## Questions for the backend team

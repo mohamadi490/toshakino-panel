@@ -8,11 +8,12 @@
 - Tooling: ESLint with architecture boundaries, cycle check, 52 unit tests, CI workflow, Dockerfile + nginx.
 
 ## Phase 1 - in progress
-Done (local, verified, 81 tests):
+Done (local, verified, 107 tests):
 - Phase-0 gap closed: global loading indicator (interceptor + bar).
 - Shared: data table, pagination, form field + field-error mapping, confirm dialog, `PagedList`, digit normalisation.
 - **Access control (item 6)**: users list (search, status filter, paging, enable/disable with confirmation, self-disable hidden), user create/edit (contact rule, Persian-digit mobile, role assignment gated by `roles.assign`, effective permissions view, read-only without `users.update`), roles list, role create/edit (grouped permission matrix, system role name locked).
-Pending: dashboard, catalog (categories, products, variants, media, inventory), orders, customers, content and brand settings.
+- **Categories (item 7a)**: tree list (parents first, depth, status badges, product count), create/edit (slug validation, parent choices exclude self+descendants, SEO fields, https-only canonical, backend slug-conflict mapping, read-only without `categories.manage`).
+Pending: products (variants, attributes, media), inventory, orders, customers, dashboard, content and brand settings.
 
 ## Next: Phase 1 (planned order)
 1. Generated API client (blocked on OpenAPI).

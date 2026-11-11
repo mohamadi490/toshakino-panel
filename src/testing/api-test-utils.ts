@@ -1,7 +1,7 @@
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthStore } from '../../core/auth/auth.store';
-import { Permission, Permissions } from '../../core/authorization/permissions';
+import { AuthStore } from '../app/core/auth/auth.store';
+import { Permission, Permissions } from '../app/core/authorization/permissions';
 
 export const BASE = 'https://api.tashkino.ir/api/v1';
 

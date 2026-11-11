@@ -30,6 +30,11 @@ export const routes: Routes = [
         title: 'داشبورد | تشکینو',
       },
       {
+        path: 'catalog',
+        loadChildren: () =>
+          import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES),
+      },
+      {
         path: 'access',
         loadChildren: () =>
           import('./features/access-control/access.routes').then((m) => m.ACCESS_ROUTES),

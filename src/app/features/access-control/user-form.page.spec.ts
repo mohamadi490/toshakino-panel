@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 import { Permissions } from '../../core/authorization/permissions';
 import { UserFormPage } from './user-form.page';
-import { expectApi, page, signIn } from './testing';
+import { expectApi, page, signIn } from '../../../testing/api-test-utils';
 
 const ROLES = page([{ id: 'r1', name: 'مدیر', isSystem: false, permissions: [] }]);
 
