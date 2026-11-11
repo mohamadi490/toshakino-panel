@@ -18,3 +18,18 @@ describe('money', () => {
     expect(formatMoney(NaN)).toBe('—');
   });
 });
+
+import { parseTomanInput } from './money';
+
+describe('parseTomanInput', () => {
+  it.each([
+    ['1500000', 1500000],
+    ['۱٬۵۰۰٬۰۰۰', 1500000],
+    ['1,500,000', 1500000],
+    [' ۲۵۰ ', 250],
+    ['0', 0],
+  ])('parses %s', (input, expected) => expect(parseTomanInput(input)).toBe(expected));
+  it.each(['', 'abc', '12.5', '-5', '1e6', '12 تومان'])('rejects %s', (input) =>
+    expect(parseTomanInput(input)).toBeNull(),
+  );
+});

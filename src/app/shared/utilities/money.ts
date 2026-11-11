@@ -1,3 +1,5 @@
+import { normalizeDigits } from './digits';
+
 /** Canonical money unit is integer Rial (IRR). Toman = Rial / 10 (integer division). */
 export type CurrencyUnit = 'toman' | 'rial';
 
@@ -7,6 +9,16 @@ export function rialToToman(rial: number): number {
 
 export function tomanToRial(toman: number): number {
   return Math.trunc(toman) * 10;
+}
+
+/**
+ * Parses a user-typed Toman amount (Persian/Latin digits, optional thousand separators)
+ * into a non-negative integer, or null when it is not a plain whole number.
+ */
+export function parseTomanInput(value: string): number | null {
+  const cleaned = normalizeDigits(value).replace(/[,٬\s]/g, '');
+  if (!/^\d{1,13}$/.test(cleaned)) return null;
+  return Number(cleaned);
 }
 
 export function formatMoney(rial: number | null | undefined, unit: CurrencyUnit = 'toman'): string {

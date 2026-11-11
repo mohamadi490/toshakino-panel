@@ -36,6 +36,20 @@ No OpenAPI file exists yet, so Phase 0 code follows `BACKEND-REQUIREMENTS.md` an
 | 16 | No `GET /admin/categories/{id}` and no DELETE in the contract: forms read from the list; removal = `status: archived` | category form |
 | 17 | `POST/PATCH` take the full field set above; slug conflicts return 409 with `fieldErrors.slug`; slug change creates the redirect server-side | category form |
 
+## ASSUMED - products (Phase 1, catalog)
+Agreed endpoints: `GET/POST /admin/products`, `GET/PATCH /admin/products/{id}`, `POST /admin/products/{id}/publish|unpublish`.
+| # | Assumption | Where used |
+|---|---|---|
+| 18 | List item: `{id, slug, title, status, categoryId?, categoryTitle?, minPriceRial?, variantCount, updatedAt, publishedAt?}`; filters `search`, `status`, `categoryId` | products list |
+| 19 | Detail adds `shortDescription, description, seoTitle, seoDescription, canonicalUrl, attributes[{name,value}], variants[]` | product form |
+| 20 | Variants are embedded in the product body (full replace on PATCH; a variant `id` is sent when it already exists so the server can keep SKU history/stock). Variant: `{id?, sku, options[{name,value}], priceRial, salePriceRial?, weightGrams?, isActive}` | product form |
+| 21 | `attributes` (specs) and variant `options` are free `name/value` pairs in this version. The requirements doc asks for a searchable Attribute/Attribute-Value model: **a dedicated attribute catalog endpoint is needed** and the form should then switch to pickers | product form |
+| 22 | Publish/unpublish return the updated product detail; the server validates publishability (>=1 active priced variant, slug, category rules) | publish button |
+| 23 | Money is integer Rial; the UI enters Toman and multiplies by 10, so prices that are not multiples of 10 Rial cannot be edited exactly (they would round on display) | product form |
+| 24 | Images/media: **not implemented yet** - no media endpoint is in the agreed list. Needs the upload contract (multipart vs presigned), size/MIME limits, alt text, product/variant linkage | pending |
+
+Backend must also enforce (UI does not): SKU global uniqueness, sale price < price, deleting/archiving products with past orders, slug redirects, variant removal when stock/orders exist.
+
 Backend must also enforce (UI does not): category cycles (a parent cannot be a descendant), slug uniqueness, redirect-chain avoidance, archiving a category that still has published products.
 
 Backend must also enforce (UI does not): users cannot disable themselves or remove the last super-admin; system roles cannot be renamed/deleted; assigning roles/permissions the caller does not hold (privilege escalation) is rejected.
@@ -49,4 +63,5 @@ Backend must also enforce (UI does not): users cannot disable themselves or remo
 6. Upload contract for media (multipart vs presigned URL).
 7. OpenAPI URL (or file) reachable by CI for client generation and contract diff.
 8. Should `PATCH /admin/users` use optimistic concurrency (`version`/`ETag`) to avoid lost updates?
-9. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
+9. Attribute model: fixed catalog of attributes with values (for filtering) vs free text? Variant selection policy for add-to-cart?
+10. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).

@@ -15,12 +15,14 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
   host: {
     '[class]': 'classes()',
     '[attr.aria-busy]': 'loading() || null',
-    '[disabled]': 'loading() || null',
+    '[disabled]': 'disabled() || loading() || null',
   },
 })
 export class ButtonComponent {
   readonly variant = input<ButtonVariant>('primary');
   readonly loading = input(false);
+  /** Declared as an input so an external `[disabled]` is merged with the loading state, not overridden. */
+  readonly disabled = input(false);
 
   protected readonly classes = computed(() => {
     const base =

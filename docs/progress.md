@@ -8,12 +8,14 @@
 - Tooling: ESLint with architecture boundaries, cycle check, 52 unit tests, CI workflow, Dockerfile + nginx.
 
 ## Phase 1 - in progress
-Done (local, verified, 107 tests):
+Done (local, verified, 138 tests):
 - Phase-0 gap closed: global loading indicator (interceptor + bar).
 - Shared: data table, pagination, form field + field-error mapping, confirm dialog, `PagedList`, digit normalisation.
 - **Access control (item 6)**: users list (search, status filter, paging, enable/disable with confirmation, self-disable hidden), user create/edit (contact rule, Persian-digit mobile, role assignment gated by `roles.assign`, effective permissions view, read-only without `users.update`), roles list, role create/edit (grouped permission matrix, system role name locked).
 - **Categories (item 7a)**: tree list (parents first, depth, status badges, product count), create/edit (slug validation, parent choices exclude self+descendants, SEO fields, https-only canonical, backend slug-conflict mapping, read-only without `categories.manage`).
-Pending: products (variants, attributes, media), inventory, orders, customers, dashboard, content and brand settings.
+- **Products (item 7b)**: list (search, status + category filters, paging, publish/unpublish with confirmation), create/edit form (slug/category/descriptions, specs, Variant/SKU editor with options, Toman -> Rial conversion, sale < price rule, duplicate-SKU rule, SEO), publish button gated by saved state and a priced active variant, read-only mode without `products.update`.
+- Bugs found by tests and fixed: `app-button` ignored an external `[disabled]`; read-only mode left dynamically created controls enabled.
+Pending: media upload (blocked on contract), attribute catalog (blocked on backend model), inventory, orders, customers, dashboard, content and brand settings.
 
 ## Next: Phase 1 (planned order)
 1. Generated API client (blocked on OpenAPI).
