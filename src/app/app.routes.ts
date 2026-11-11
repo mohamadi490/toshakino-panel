@@ -30,6 +30,11 @@ export const routes: Routes = [
         title: 'داشبورد | تشکینو',
       },
       {
+        path: 'access',
+        loadChildren: () =>
+          import('./features/access-control/access.routes').then((m) => m.ACCESS_ROUTES),
+      },
+      {
         path: 'forbidden',
         loadComponent: () =>
           import('./features/errors/forbidden.page').then((m) => m.ForbiddenPage),
@@ -45,5 +50,5 @@ export const routes: Routes = [
 ];
 
 // Policy for feature routes added in later phases:
-//   { path: 'products', canMatch: [permissionMatch], canActivate: [permissionGuard],
+//   { path: 'products', canActivate: [permissionGuard],
 //     data: { permissions: { all: [Permissions.ProductsRead] } }, loadChildren: ... }

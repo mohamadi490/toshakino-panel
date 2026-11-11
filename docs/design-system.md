@@ -8,4 +8,5 @@ Direction: calm night-indigo (sleep/bedding), Vazirmatn, RTL-first, restrained d
 - **Contrast**: primary/ink pairs target WCAG AA (light primary `#3f4c9a` on white, dark primary `#8c9bff` on `#0e1120`).
 - **Accessibility floor**: skip link, visible `:focus-visible`, labelled inputs with `aria-invalid`, toast region with `aria-live`, reduced-motion respected.
 - **Font**: Vazirmatn variable (OFL) is bundled in `src/assets/fonts`; no CDN.
-- **Components so far**: button (`button[app-button]`), icon, toasts, appearance toggle. Tables, forms, dialogs, pagination, filters and empty/error/loading states arrive with the first feature that needs them (Phase 1).
+- **Components**: button (`button[app-button]`), icon, `app-data-table` (loading skeleton / empty / error+retry, custom cells via `#cell`), `app-pagination`, `app-form-field` (label + a11y error/hint, backend `fieldErrors` via `applyFieldErrors`), confirm dialog (`ConfirmService`, native `<dialog>`), toasts, global loading bar, appearance toggle.
+- `PagedList` (shared/tables) holds a server-paginated list as signals and cancels stale requests.

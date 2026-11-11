@@ -17,6 +17,19 @@ No OpenAPI file exists yet, so Phase 0 code follows `BACKEND-REQUIREMENTS.md` an
 | 5 | Admin brand `data` = `{ version, primaryColor, secondaryColor, primaryColorDark?, secondaryColorDark?, logoUrl? }` (HEX) | `BrandService` |
 | 6 | Logout returns 204/200 with empty body | `AuthService.logout` |
 
+## ASSUMED - users and roles (Phase 1, access-control)
+| # | Assumption | Where used |
+|---|---|---|
+| 7 | `GET /admin/users` accepts `page`, `pageSize`, `search`, `isActive` and returns `{id, displayName, email?, mobile?, isActive, roles[], lastLoginAt?, createdAt}` | `AdminUserSummary`, users list |
+| 8 | `GET /admin/users/{id}` adds `effectivePermissions: string[]` (server-computed union over roles) | user form |
+| 9 | `POST /admin/users` body `{displayName, email?, mobile?, password, roleIds[]}`; mobile format `09XXXXXXXXX`; password min length 10 is a UI guess | user form |
+| 10 | `PATCH /admin/users/{id}` accepts partial `{displayName, email, mobile, isActive, roleIds}`; disabling = `isActive:false` (permission `users.disable`); `roleIds` needs `roles.assign` and is omitted from the body when the admin lacks it | list + form |
+| 11 | There is no `GET /admin/roles/{id}`; `GET /admin/roles` returns roles WITH their `permissions[]` (and ideally `userCount`) | role form reads the list |
+| 12 | `GET /admin/permissions` returns `[{key, group, label?, description?}]` | role matrix |
+| 13 | Validation errors use `fieldErrors` keyed by the same camelCase field names as the request body | `applyFieldErrors` |
+
+Backend must also enforce (UI does not): users cannot disable themselves or remove the last super-admin; system roles cannot be renamed/deleted; assigning roles/permissions the caller does not hold (privilege escalation) is rejected.
+
 ## Questions for the backend team
 1. Final login identifier: email, mobile or both? Any 2FA/OTP for admins?
 2. Exact CSRF mechanism for the refresh cookie (header, double-submit, Origin check only)?
@@ -25,4 +38,5 @@ No OpenAPI file exists yet, so Phase 0 code follows `BACKEND-REQUIREMENTS.md` an
 5. Idempotency header name for create/mutate calls (needed from Phase 1 orders/inventory).
 6. Upload contract for media (multipart vs presigned URL).
 7. OpenAPI URL (or file) reachable by CI for client generation and contract diff.
-8. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
+8. Should `PATCH /admin/users` use optimistic concurrency (`version`/`ETag`) to avoid lost updates?
+9. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).

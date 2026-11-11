@@ -11,6 +11,7 @@ import { firstValueFrom } from 'rxjs';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/api/auth.interceptor';
 import { errorInterceptor } from './core/api/error.interceptor';
+import { loadingInterceptor } from './core/api/loading.interceptor';
 import { AuthService } from './core/auth/auth.service';
 import { BrandService } from './core/brand/brand.service';
 import { AppConfig } from './core/config/app-config';
@@ -24,7 +25,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     // errorInterceptor is listed first => it is the outermost wrapper and sees the final outcome
     // (after authInterceptor has already refreshed/retried a 401).
-    provideHttpClient(withFetch(), withInterceptors([errorInterceptor, authInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([loadingInterceptor, errorInterceptor, authInterceptor]),
+    ),
     provideAppInitializer(async () => {
       inject(ThemeService); // apply appearance immediately
       await inject(AppConfig).load();

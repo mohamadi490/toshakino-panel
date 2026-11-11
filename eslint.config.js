@@ -2,6 +2,9 @@
 const eslint = require('@eslint/js');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
+const { readdirSync } = require('node:fs');
+
+const FEATURES = readdirSync('src/app/features', { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
 
 /** Layer rules (see docs/architecture.md):
  *  shared -> nothing app-specific | core -> shared only | features -> core + shared, never other features
@@ -30,23 +33,23 @@ module.exports = tseslint.config(
   {
     files: ['src/app/shared/**/*.ts'],
     ignores: ['**/*.spec.ts'],
-    rules: forbid(['**/core/**', '**/features/**', '**/layouts/**'], 'shared must not depend on core, features or layouts. Keep shared generic.'),
+    rules: forbid(['../**/core/**', '../**/features/**', '../**/layouts/**'], 'shared must not depend on core, features or layouts. Keep shared generic.'),
   },
   {
     files: ['src/app/core/**/*.ts'],
     ignores: ['**/*.spec.ts'],
-    rules: forbid(['**/features/**', '**/layouts/**'], 'core must not depend on features or layouts.'),
+    rules: forbid(['../**/features/**', '../**/layouts/**'], 'core must not depend on features or layouts.'),
   },
   {
     files: ['src/app/layouts/**/*.ts'],
     ignores: ['**/*.spec.ts'],
-    rules: forbid(['**/features/**'], 'layouts must not depend on features.'),
+    rules: forbid(['../**/features/**'], 'layouts must not depend on features.'),
   },
-  ...['auth', 'dashboard', 'errors'].map((name) => ({
+  ...FEATURES.map((name) => ({
     files: [`src/app/features/${name}/**/*.ts`],
     ignores: ['**/*.spec.ts'],
     rules: forbid(
-      ['auth', 'dashboard', 'errors'].filter((n) => n !== name).map((n) => `**/features/${n}/**`).concat(['**/layouts/**']),
+      FEATURES.filter((n) => n !== name).flatMap((n) => [`../**/features/${n}/**`, `../${n}/**`]).concat(['../**/layouts/**']),
       'A feature must not import another feature or a layout. Move shared code to shared/ or core/.',
     ),
   })),

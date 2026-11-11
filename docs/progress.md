@@ -7,11 +7,17 @@
 - Shell (collapsible sidebar, mobile drawer, header, user menu), login page, dashboard placeholder, toasts.
 - Tooling: ESLint with architecture boundaries, cycle check, 52 unit tests, CI workflow, Dockerfile + nginx.
 
+## Phase 1 - in progress
+Done (local, verified, 81 tests):
+- Phase-0 gap closed: global loading indicator (interceptor + bar).
+- Shared: data table, pagination, form field + field-error mapping, confirm dialog, `PagedList`, digit normalisation.
+- **Access control (item 6)**: users list (search, status filter, paging, enable/disable with confirmation, self-disable hidden), user create/edit (contact rule, Persian-digit mobile, role assignment gated by `roles.assign`, effective permissions view, read-only without `users.update`), roles list, role create/edit (grouped permission matrix, system role name locked).
+Pending: dashboard, catalog (categories, products, variants, media, inventory), orders, customers, content and brand settings.
+
 ## Next: Phase 1 (planned order)
-1. Shared table/form/dialog/pagination/empty-error-loading components + generated API client (blocked on OpenAPI).
-2. Admin users, roles and permissions.
-3. Categories -> products (variants, media) -> inventory.
-4. Orders, customers, content pages, brand settings, audit log.
+1. Generated API client (blocked on OpenAPI).
+2. Categories -> products (variants, media) -> inventory.
+3. Orders, customers, content pages, brand settings, dashboard.
 
 ## Planned E2E (needs API + browser)
 login happy path / bad credentials; session restore on reload; forced refresh on expired token; 403 route; logout from another tab.

@@ -1,6 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { AuthStore } from '../auth/auth.store';
-import { PermissionRequirement } from '../authorization/permissions';
+import { PermissionRequirement, Permissions } from '../authorization/permissions';
 
 export interface NavItem {
   id: string;
@@ -16,6 +16,20 @@ export interface NavItem {
  */
 export const NAV_ITEMS: readonly NavItem[] = [
   { id: 'dashboard', label: 'داشبورد', route: '/dashboard', icon: 'home' },
+  {
+    id: 'users',
+    label: 'کاربران پنل',
+    route: '/access/users',
+    icon: 'users',
+    permissions: { all: [Permissions.UsersRead] },
+  },
+  {
+    id: 'roles',
+    label: 'نقش‌ها و مجوزها',
+    route: '/access/roles',
+    icon: 'shield',
+    permissions: { all: [Permissions.RolesRead] },
+  },
 ];
 
 @Injectable({ providedIn: 'root' })

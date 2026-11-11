@@ -29,7 +29,7 @@ src/app/
 
 ## Adding a feature (checklist)
 1. `features/<name>/` with lazy `loadChildren` route.
-2. Route has `canMatch: [permissionMatch]`, `canActivate: [permissionGuard]`, `data: { permissions: { all: [Permissions.X] } }`. A route without a policy is denied.
+2. Every route has `canActivate: [permissionGuard]` and `data: { permissions: { all: [Permissions.X] } }`. A route without a policy is denied and redirects to `/forbidden`. (Do not use `canMatch` for this: a failed match falls through to the 404 wildcard instead of showing 403.)
 3. Add a `NAV_ITEMS` entry with the same permission.
 4. Gate actions with `*appCan`.
 5. Tests for loading, empty, error, forbidden and happy paths.
