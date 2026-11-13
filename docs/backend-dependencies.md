@@ -50,6 +50,18 @@ Agreed endpoints: `GET/POST /admin/products`, `GET/PATCH /admin/products/{id}`, 
 
 Backend must also enforce (UI does not): SKU global uniqueness, sale price < price, deleting/archiving products with past orders, slug redirects, variant removal when stock/orders exist.
 
+## ASSUMED - inventory (Phase 1)
+Agreed endpoints: `GET /admin/inventory`, `POST /admin/inventory/adjustments`.
+| # | Assumption | Where used |
+|---|---|---|
+| 25 | List item: `{variantId, sku, productId, productTitle, variantLabel?, onHand, reserved, available, lowStockThreshold?, updatedAt?}`; filters `search`, `lowStock`. `available` is server-computed; the UI never derives it | inventory list |
+| 26 | Adjustment body `{variantId, delta (signed, non-zero int), reasonCode: received\|correction\|damaged\|returned\|other, note?}`; response = updated inventory item (the row is replaced with it) | adjust dialog |
+| 27 | Header `Idempotency-Key` is honoured on adjustments: same key + same body = applied once. The UI keeps one key per distinct payload and rotates it when the payload changes | adjust dialog |
+| 28 | Validation errors name fields `delta`, `reasonCode`, `note` (mapped to the form controls) | adjust dialog |
+| 29 | **Adjustment history is not in the agreed endpoints.** The requirements demand history with the acting user; a read endpoint (e.g. `GET /admin/inventory/{variantId}/history`) is needed before a history view can be built | pending |
+
+Backend must also enforce (UI does not): atomic/locked updates (no negative stock under concurrency), a decrease cannot dip below reserved stock, audit entry with the actor for every manual adjustment, `note` mandatory for reason `other`.
+
 Backend must also enforce (UI does not): category cycles (a parent cannot be a descendant), slug uniqueness, redirect-chain avoidance, archiving a category that still has published products.
 
 Backend must also enforce (UI does not): users cannot disable themselves or remove the last super-admin; system roles cannot be renamed/deleted; assigning roles/permissions the caller does not hold (privilege escalation) is rejected.
@@ -64,4 +76,5 @@ Backend must also enforce (UI does not): users cannot disable themselves or remo
 7. OpenAPI URL (or file) reachable by CI for client generation and contract diff.
 8. Should `PATCH /admin/users` use optimistic concurrency (`version`/`ETag`) to avoid lost updates?
 9. Attribute model: fixed catalog of attributes with values (for filtering) vs free text? Variant selection policy for add-to-cart?
-10. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
+10. Is stale-stock protection wanted on adjustments (e.g. `expectedOnHand` so two admins cannot overwrite each other)?
+11. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).

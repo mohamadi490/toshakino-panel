@@ -16,6 +16,7 @@ const PATHS: Record<string, string> = {
   folder: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z',
   box: 'm12 3 8 4v10l-8 4-8-4V7l8-4Zm0 8 8-4M12 11v10M12 11 4 7',
   trash: 'M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3',
+  stack: 'M12 3 3 8l9 5 9-5-9-5ZM3 12l9 5 9-5M3 16l9 5 9-5',
   plus: 'M12 5v14M5 12h14',
   alert:
     'M12 8v5m0 3.5v.01M10.3 4.3 2.8 17.5A2 2 0 0 0 4.5 20.5h15a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z',
