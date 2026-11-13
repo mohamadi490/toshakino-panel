@@ -24,6 +24,34 @@ export const NAV_ITEMS: readonly NavItem[] = [
     permissions: { all: [Permissions.OrdersRead] },
   },
   {
+    id: 'customers',
+    label: 'مشتری‌ها',
+    route: '/customers',
+    icon: 'user',
+    permissions: { all: [Permissions.CustomersRead] },
+  },
+  {
+    id: 'products',
+    label: 'محصولات',
+    route: '/catalog/products',
+    icon: 'box',
+    permissions: { all: [Permissions.ProductsRead] },
+  },
+  {
+    id: 'categories',
+    label: 'دسته‌بندی‌ها',
+    route: '/catalog/categories',
+    icon: 'folder',
+    permissions: { all: [Permissions.CategoriesRead] },
+  },
+  {
+    id: 'inventory',
+    label: 'موجودی انبار',
+    route: '/inventory',
+    icon: 'stack',
+    permissions: { all: [Permissions.InventoryRead] },
+  },
+  {
     id: 'users',
     label: 'کاربران پنل',
     route: '/access/users',
@@ -36,13 +64,6 @@ export const NAV_ITEMS: readonly NavItem[] = [
     route: '/access/roles',
     icon: 'shield',
     permissions: { all: [Permissions.RolesRead] },
-  },
-  {
-    id: 'customers',
-    label: 'مشتری‌ها',
-    route: '/customers',
-    icon: 'user',
-    permissions: { all: [Permissions.CustomersRead] },
   },
 ];
 
