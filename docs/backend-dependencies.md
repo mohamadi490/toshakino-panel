@@ -81,6 +81,18 @@ Agreed endpoints: `GET /admin/orders`, `GET /admin/orders/{id}`, `PATCH /admin/o
 
 Backend must also enforce (UI does not): transition validity (no arbitrary status), cancel/refund rules against payment and shipping state, object-level access, audit log of every status change with the actor.
 
+## ASSUMED - customers (Phase 1)
+Agreed endpoints: `GET /admin/customers`, `GET /admin/customers/{id}`.
+| # | Assumption | Where used |
+|---|---|---|
+| 38 | List item `{id, name, mobile?, email?, ordersCount, totalSpentRial?, lastOrderAt?, createdAt, isActive?}`; filters `search`, `sort` (`-createdAt`, `-ordersCount`, `-totalSpent`) | customers list |
+| 39 | Detail adds `addresses[{title, recipient, phone, province, city, address, postalCode}]` | customer detail |
+| 40 | The backend decides which contact fields to return for the caller (masking, omission); the UI shows what it receives and a dash for missing values | list + detail |
+| 41 | Order history uses the agreed `GET /admin/orders` with a `customerId` filter (needs `orders.read`; without it the section is replaced by a note and no request is made) | customer detail |
+| 42 | Not built (no agreed endpoint): editing a customer (`customers.update`), disabling accounts, notes, export | pending |
+
+Backend must also enforce (UI does not): object-level access, minimal PII in list responses, audit of reads of sensitive customer data if policy requires it.
+
 ## Questions for the backend team
 1. Final login identifier: email, mobile or both? Any 2FA/OTP for admins?
 2. Exact CSRF mechanism for the refresh cookie (header, double-submit, Origin check only)?
@@ -94,3 +106,4 @@ Backend must also enforce (UI does not): transition validity (no arbitrary statu
 10. Is stale-stock protection wanted on adjustments (e.g. `expectedOnHand` so two admins cannot overwrite each other)?
 11. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
 12. Please provide the final order/payment/shipping status key lists and confirm `allowedTransitions` on the order detail.
+13. Should contact details in the customer list be masked for some roles? Which permission governs full PII vs masked values?
