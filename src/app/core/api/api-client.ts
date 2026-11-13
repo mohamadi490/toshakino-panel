@@ -30,6 +30,12 @@ export class ApiClient {
     return this.http.patch<ApiEnvelope<T>>(this.url(path), body).pipe(map((r) => r.data));
   }
 
+  patchWithHeaders<T>(path: string, body: unknown, headers: Record<string, string>): Observable<T> {
+    return this.http
+      .patch<ApiEnvelope<T>>(this.url(path), body, { headers })
+      .pipe(map((r) => r.data));
+  }
+
   put<T>(path: string, body: unknown): Observable<T> {
     return this.http.put<ApiEnvelope<T>>(this.url(path), body).pipe(map((r) => r.data));
   }

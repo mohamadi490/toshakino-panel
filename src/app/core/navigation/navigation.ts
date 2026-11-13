@@ -17,6 +17,13 @@ export interface NavItem {
 export const NAV_ITEMS: readonly NavItem[] = [
   { id: 'dashboard', label: 'داشبورد', route: '/dashboard', icon: 'home' },
   {
+    id: 'orders',
+    label: 'سفارش‌ها',
+    route: '/orders',
+    icon: 'receipt',
+    permissions: { all: [Permissions.OrdersRead] },
+  },
+  {
     id: 'users',
     label: 'کاربران پنل',
     route: '/access/users',

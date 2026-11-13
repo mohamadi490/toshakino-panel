@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 const PATHS: Record<string, string> = {
   home: 'M3 11.5 12 4l9 7.5M5 10v10h5v-6h4v6h5V10',
+  receipt: 'M6 3h12v18l-3-2-3 2-3-2-3 2V3Zm3 5h6M9 12h6',
   menu: 'M4 6h16M4 12h16M4 18h16',
   sun: 'M12 4V2m0 20v-2M4 12H2m20 0h-2m-2.9-7.1 1.4-1.4M5.5 18.5l1.4-1.4m0-10.2L5.5 5.5m13 13-1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8',
   moon: 'M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z',
