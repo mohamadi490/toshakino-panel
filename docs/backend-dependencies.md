@@ -66,6 +66,21 @@ Backend must also enforce (UI does not): category cycles (a parent cannot be a d
 
 Backend must also enforce (UI does not): users cannot disable themselves or remove the last super-admin; system roles cannot be renamed/deleted; assigning roles/permissions the caller does not hold (privilege escalation) is rejected.
 
+## ASSUMED - orders (Phase 1)
+Agreed endpoints: `GET /admin/orders`, `GET /admin/orders/{id}`, `PATCH /admin/orders/{id}/status`.
+| # | Assumption | Where used |
+|---|---|---|
+| 30 | List item `{id, number, customerName?, status, paymentStatus, shippingStatus?, itemCount, totalRial, createdAt}`; filters `search`, `status`, `paymentStatus`, `sort` (`-createdAt`, `createdAt`, `-total`, `total`) | orders list |
+| 31 | Order, payment and shipping statuses are **separate open string keys**. The UI labels these keys: order `pending, confirmed, processing, shipped, delivered, cancelled, returned`; payment `initiated, pending, paid, failed, cancelled, refunded`; shipping `pending, shipped, delivered, returned`. Unknown keys are shown raw. The final key list is needed from the backend (the filters offer only the known keys) | labels, filters |
+| 32 | Detail adds `customer{name,mobile,email}`, `shippingAddress{recipient,phone,province,city,address,postalCode}`, `shippingMethod`, `items[{sku,title,optionsLabel,quantity,unitPriceRial,discountRial,lineTotalRial}]` (purchase-time snapshot), `subtotalRial, discountRial, shippingRial`, `payments[]`, `history[{from,to,actor,note,at}]` | order detail |
+| 33 | **`allowedTransitions: string[]` is returned by the backend** on the detail response (the state machine lives on the server). The UI offers exactly those and hardcodes no transitions. Without this field the status panel cannot work | status panel |
+| 34 | `PATCH .../status` body `{status, note?}` returns the updated order detail; honours `Idempotency-Key`; a stale transition returns 409 (the UI reloads) | status panel |
+| 35 | Cancelling needs `orders.cancel`, other transitions `orders.update_status` (UI hides what the role cannot do; backend decides) | status panel |
+| 36 | Customer contact and address are only returned/shown with `customers.read`; without it the UI shows a "not available for your role" note. The backend should also omit them in that case | order detail |
+| 37 | Not built (no agreed endpoint): internal notes, refunds, shipment tracking entry, date-range filter, export | pending |
+
+Backend must also enforce (UI does not): transition validity (no arbitrary status), cancel/refund rules against payment and shipping state, object-level access, audit log of every status change with the actor.
+
 ## Questions for the backend team
 1. Final login identifier: email, mobile or both? Any 2FA/OTP for admins?
 2. Exact CSRF mechanism for the refresh cookie (header, double-submit, Origin check only)?
@@ -78,3 +93,4 @@ Backend must also enforce (UI does not): users cannot disable themselves or remo
 9. Attribute model: fixed catalog of attributes with values (for filtering) vs free text? Variant selection policy for add-to-cart?
 10. Is stale-stock protection wanted on adjustments (e.g. `expectedOnHand` so two admins cannot overwrite each other)?
 11. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
+12. Please provide the final order/payment/shipping status key lists and confirm `allowedTransitions` on the order detail.
