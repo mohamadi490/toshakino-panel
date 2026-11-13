@@ -21,6 +21,7 @@ const PATHS: Record<string, string> = {
   plus: 'M12 5v14M5 12h14',
   alert:
     'M12 8v5m0 3.5v.01M10.3 4.3 2.8 17.5A2 2 0 0 0 4.5 20.5h15a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z',
+  user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 20a8 8 0 0 1 16 0',
 };
 
 @Component({

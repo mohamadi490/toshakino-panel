@@ -49,6 +49,11 @@ export const routes: Routes = [
           import('./features/access-control/access.routes').then((m) => m.ACCESS_ROUTES),
       },
       {
+        path: 'customers',
+        loadChildren: () =>
+          import('./features/customers/customers.routes').then((m) => m.CUSTOMERS_ROUTES),
+      },
+      {
         path: 'forbidden',
         loadComponent: () =>
           import('./features/errors/forbidden.page').then((m) => m.ForbiddenPage),

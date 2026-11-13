@@ -37,6 +37,13 @@ export const NAV_ITEMS: readonly NavItem[] = [
     icon: 'shield',
     permissions: { all: [Permissions.RolesRead] },
   },
+  {
+    id: 'customers',
+    label: 'مشتری‌ها',
+    route: '/customers',
+    icon: 'user',
+    permissions: { all: [Permissions.CustomersRead] },
+  },
 ];
 
 @Injectable({ providedIn: 'root' })
