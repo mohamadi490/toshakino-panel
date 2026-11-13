@@ -16,7 +16,8 @@ Done (verified, 158 tests):
 - **Products (item 7b)**: list (search, status + category filters, paging, publish/unpublish with confirmation), create/edit form (slug/category/descriptions, specs, Variant/SKU editor with options, Toman -> Rial conversion, sale < price rule, duplicate-SKU rule, SEO), publish button gated by saved state and a priced active variant, read-only mode without `products.update`.
 - Bugs found by tests and fixed: `app-button` ignored an external `[disabled]`; read-only mode left dynamically created controls enabled.
 - **Inventory (item 8)**: SKU stock list (search, low/out-of-stock filter, on-hand/reserved/available, status badge, paging), adjustment dialog (increase/decrease, quantity with Persian digits, reason, note required for "other", resulting-stock preview, negative stock refused, duplicate-submit guard, `Idempotency-Key` per payload, backend field errors mapped, row replaced with server figures). Gated by `inventory.read` / `inventory.adjust`.
-Pending: media upload (blocked on contract), attribute catalog (blocked on backend model), inventory history (blocked on endpoint), orders, customers, dashboard, content and brand settings.
+- **Orders (item 9)**: list (search, order/payment status filters, sort, paging, Toman totals, Jalali time) and detail (purchase-time items and totals, payments, status history, shipping, customer with permission-based masking). Status changes offer only the backend's `allowedTransitions`, cancel needs `orders.cancel` + reason + confirmation, `Idempotency-Key` per payload, conflict -> reload.
+Pending: media upload (blocked on contract), attribute catalog (blocked on backend model), inventory history (blocked on endpoint), customers, dashboard, content and brand settings.
 
 ## Next: Phase 1 (planned order)
 1. Generated API client (blocked on OpenAPI).

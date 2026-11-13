@@ -30,6 +30,10 @@ export const routes: Routes = [
         title: 'داشبورد | تشکینو',
       },
       {
+        path: 'orders',
+        loadChildren: () => import('./features/orders/orders.routes').then((m) => m.ORDERS_ROUTES),
+      },
+      {
         path: 'catalog',
         loadChildren: () =>
           import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES),
