@@ -93,6 +93,19 @@ Agreed endpoints: `GET /admin/customers`, `GET /admin/customers/{id}`.
 
 Backend must also enforce (UI does not): object-level access, minimal PII in list responses, audit of reads of sensitive customer data if policy requires it.
 
+## ASSUMED - dashboard (Phase 1)
+Agreed endpoint: `GET /admin/dashboard/summary`; the response shape is not specified.
+| # | Assumption | Where used |
+|---|---|---|
+| 43 | Query `range` = `today` \| `7d` \| `30d` (an explicit `from`/`to` pair would be better if you prefer; tell us) | dashboard |
+| 44 | Response `data`: `{range?{from,to}, ordersCount, salesRial (paid only), averageOrderRial?, ordersByStatus[{status,label?,count}], salesSeries?[{date,salesRial,ordersCount?}], pendingOrdersCount?, lowStockCount?}` | dashboard |
+| 45 | Every figure comes from the API: optional fields that are missing produce **no card** (never a fake zero); a real `0` is shown as `0` | dashboard |
+| 46 | Requires `reports.read`; without it the UI makes no request and shows an explanatory note. The backend must enforce the same | dashboard |
+| 47 | `date` values are ISO timestamps for the start of the day in the shop's day boundary (Asia/Tehran) | chart axis |
+| 48 | Not built (no data contract): comparison with the previous period, top products, conversion, CSV/XLSX export (Phase 2) | pending |
+
+Backend must also enforce (UI does not): permission on the summary, consistent definition of "sales" (paid vs placed vs refunded), timezone of day buckets.
+
 ## Questions for the backend team
 1. Final login identifier: email, mobile or both? Any 2FA/OTP for admins?
 2. Exact CSRF mechanism for the refresh cookie (header, double-submit, Origin check only)?
@@ -107,3 +120,4 @@ Backend must also enforce (UI does not): object-level access, minimal PII in lis
 11. Open product decisions from the requirements doc §12 that affect admin forms (variants attributes, order status transitions, stock display policy).
 12. Please provide the final order/payment/shipping status key lists and confirm `allowedTransitions` on the order detail.
 13. Should contact details in the customer list be masked for some roles? Which permission governs full PII vs masked values?
+14. Dashboard: confirm the `range` parameter, the response shape and what counts as "sales" (paid, net of refunds?).
