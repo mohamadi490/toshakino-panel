@@ -18,8 +18,9 @@ Done (verified, 158 tests):
 - **Inventory (item 8)**: SKU stock list (search, low/out-of-stock filter, on-hand/reserved/available, status badge, paging), adjustment dialog (increase/decrease, quantity with Persian digits, reason, note required for "other", resulting-stock preview, negative stock refused, duplicate-submit guard, `Idempotency-Key` per payload, backend field errors mapped, row replaced with server figures). Gated by `inventory.read` / `inventory.adjust`.
 - **Orders (item 9)**: list (search, order/payment status filters, sort, paging, Toman totals, Jalali time) and detail (purchase-time items and totals, payments, status history, shipping, customer with permission-based masking). Status changes offer only the backend's `allowedTransitions`, cancel needs `orders.cancel` + reason + confirmation, `Idempotency-Key` per payload, conflict -> reload.
 - **Customers (item 10)**: list (search, sort, paging, spend in Toman) and profile (info, addresses, paged order history linking to orders; the history needs `orders.read` and is not even requested without it; independent error state).
+- **Dashboard (item 1)**: range switch (today / 7 days / 30 days), KPI cards (orders, paid sales, optional average / pending / low stock with permission-aware links), accessible bar chart of daily sales (only when the API returns sales), order status breakdown; no request or fake numbers without `reports.read`; stale responses cancelled; skeleton while first loading.
 - Bug found late and fixed (`fix/navigation-entries`): the menu was missing products, categories and inventory (silent failed text replacement after auto-formatting). A consistency test now fails if a feature has no menu entry or its menu policy differs from the route policy.
-Pending: media upload (blocked on contract), attribute catalog (blocked on backend model), inventory history (blocked on endpoint), dashboard, content and brand settings.
+Pending: media upload (blocked on contract), attribute catalog (blocked on backend model), inventory history (blocked on endpoint), content and brand settings.
 
 ## Next: Phase 1 (planned order)
 1. Generated API client (blocked on OpenAPI).

@@ -1,4 +1,4 @@
-import { ORDER_STATUS_LABELS, isCancelStatus, labelOf, toneOf } from './order-labels';
+import { ORDER_STATUS_LABELS, isCancelStatus, labelOf, toneOf } from './status-labels';
 
 describe('order labels', () => {
   it('labels known keys and falls back to the raw key for unknown ones', () => {

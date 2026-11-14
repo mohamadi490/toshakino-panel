@@ -24,7 +24,7 @@ import {
   TONE_CLASSES,
   labelOf,
   toneOf,
-} from './order-labels';
+} from '../../shared/domain/status-labels';
 import { OrderListQuery, OrderSummary } from './orders.models';
 import { OrdersApi } from './orders.api';
 

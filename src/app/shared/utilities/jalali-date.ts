@@ -25,3 +25,14 @@ export function formatJalaliDateTime(value: string | Date | null | undefined): s
     timeZone: TZ,
   }).format(d);
 }
+
+/** Short axis label such as "۲۹ فروردین" (Jalali day + month, Tehran time). */
+export function formatJalaliShort(value: string | Date | null | undefined): string {
+  const d = toDate(value);
+  if (!d) return '—';
+  return new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+    day: 'numeric',
+    month: 'long',
+    timeZone: TZ,
+  }).format(d);
+}

@@ -1,4 +1,5 @@
-import { StatusKey } from './orders.models';
+/** Open string key: the backend owns the state machines; the UI only labels keys it knows. */
+export type StatusKey = string;
 
 export const ORDER_STATUS_LABELS: Record<string, string> = {
   pending: 'در انتظار',
