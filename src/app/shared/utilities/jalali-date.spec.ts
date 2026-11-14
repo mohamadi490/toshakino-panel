@@ -15,3 +15,14 @@ describe('jalali date', () => {
     expect(formatJalaliDate('not-a-date')).toBe('—');
   });
 });
+
+import { formatJalaliShort } from './jalali-date';
+
+describe('formatJalaliShort', () => {
+  it('shows day and month name only', () => {
+    const out = formatJalaliShort('2026-03-21T12:00:00Z');
+    expect(out).toContain('فروردین');
+    expect(out).not.toContain('۱۴۰۵');
+  });
+  it('handles missing input', () => expect(formatJalaliShort(undefined)).toBe('—'));
+});
