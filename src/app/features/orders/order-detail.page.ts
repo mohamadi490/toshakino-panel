@@ -29,7 +29,7 @@ import {
   isCancelStatus,
   labelOf,
   toneOf,
-} from './order-labels';
+} from '../../shared/domain/status-labels';
 import { OrdersApi } from './orders.api';
 import { OrderDetail, OrderItem } from './orders.models';
 
