@@ -5,7 +5,7 @@ export interface LoginRequest {
   password: string;
 }
 
-/** POST /auth/admin/login and POST /auth/refresh response `data` (assumed contract - see docs/backend-dependencies.md). */
+/** POST /auth/admin/login and POST /auth/refresh response `data` (legacy pre-OpenAPI model, see docs/roadmap.md A1). */
 export interface TokenResponse {
   accessToken: string;
   tokenType?: 'Bearer';

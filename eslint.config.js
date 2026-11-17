@@ -14,6 +14,7 @@ const forbid = (patterns, message) => ({
 });
 
 module.exports = tseslint.config(
+  { ignores: ['src/app/core/api/generated/**', '.angular/**', 'dist/**'] },
   {
     files: ['**/*.ts'],
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...angular.configs.tsRecommended],

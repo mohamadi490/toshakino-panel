@@ -23,5 +23,9 @@ For local work against a local API set `"apiBaseUrl": "http://localhost:8000/api
 | [docs/design-system.md](docs/design-system.md) | Tokens, themes, RTL, brand variables |
 | [docs/testing.md](docs/testing.md) | What is tested and how |
 | [docs/deployment.md](docs/deployment.md) | Docker/nginx, runtime config, CSP |
-| [docs/backend-dependencies.md](docs/backend-dependencies.md) | **Assumed API contract + open questions for the backend** |
+| [docs/contracts/](docs/contracts/README.md) | **OpenAPI contract + backend guide**, how to regenerate types |
+| [docs/contract-analysis.md](docs/contract-analysis.md) | Contract vs. earlier assumptions, impact per module (Persian) |
+| [docs/roadmap.md](docs/roadmap.md) | Contract-driven plan: PRs, scope, acceptance (Persian) |
+| [docs/open-questions.md](docs/open-questions.md) | **Open questions for the backend team** (Persian) |
+| [docs/modules/](docs/modules/README.md) | One doc per module (Persian) |
 | [docs/progress.md](docs/progress.md) | Phase status |

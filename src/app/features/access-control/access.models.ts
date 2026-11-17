@@ -1,7 +1,7 @@
 import { AuthRole } from '../../core/auth/auth.models';
 
 /*
- * ASSUMED wire contract (no OpenAPI yet) - see docs/backend-dependencies.md.
+ * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).
  * Remove in favour of generated types once the OpenAPI file exists.
  */
 export interface AdminUserSummary {

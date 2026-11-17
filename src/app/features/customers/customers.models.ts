@@ -1,5 +1,5 @@
 /*
- * ASSUMED wire contract (no OpenAPI yet) - see docs/backend-dependencies.md.
+ * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).
  * The backend decides which contact fields it returns for the caller; the UI shows what it gets.
  */
 export interface CustomerSummary {

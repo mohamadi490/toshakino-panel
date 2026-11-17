@@ -5,4 +5,4 @@
 - Conventional commits: `feat(scope): ...`, `fix(scope): ...`, `docs: ...`, `chore: ...`, `test: ...`. Small, reviewable commits.
 - Before pushing: `npm run verify` (lint, typecheck, cycles, tests, production build).
 - Open a pull request into `main` using the template; CI must pass; squash or rebase merge.
-- New feature checklist lives in `docs/architecture.md` (permission-guarded routes, nav entry, `*appCan`, tests for loading/empty/error/forbidden/happy paths) and any new API assumption goes in `docs/backend-dependencies.md`.
+- New feature checklist lives in `docs/architecture.md` (permission-guarded routes, nav entry, `*appCan`, tests for loading/empty/error/forbidden/happy paths) and contract gaps go in `docs/open-questions.md`; each module has `docs/modules/<module>.md`; contract changes need `npm run api:generate`.

@@ -1,5 +1,5 @@
 /*
- * ASSUMED wire contract (no OpenAPI yet) - see docs/backend-dependencies.md.
+ * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).
  * Quantities are whole units of the SKU.
  */
 export interface InventoryItem {

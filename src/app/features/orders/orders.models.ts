@@ -1,5 +1,5 @@
 /*
- * ASSUMED wire contract (no OpenAPI yet) - see docs/backend-dependencies.md.
+ * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).
  * Statuses are open strings: the backend owns the state machine and the UI only
  * labels the keys it knows; unknown keys are shown raw instead of breaking.
  */
