@@ -1,5 +1,5 @@
 /*
- * ASSUMED wire contract (no OpenAPI yet) - see docs/backend-dependencies.md.
+ * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).
  * Only fields the backend actually sends are shown; nothing is computed or invented client-side.
  */
 export type DashboardRange = 'today' | '7d' | '30d';
