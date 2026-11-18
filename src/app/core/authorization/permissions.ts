@@ -11,6 +11,7 @@ export const Permissions = {
   RolesCreate: 'roles.create',
   RolesUpdate: 'roles.update',
   RolesAssign: 'roles.assign',
+  RolesDelete: 'roles.delete',
   ProductsRead: 'products.read',
   ProductsCreate: 'products.create',
   ProductsUpdate: 'products.update',

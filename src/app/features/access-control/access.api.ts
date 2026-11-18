@@ -3,44 +3,47 @@ import { Observable } from 'rxjs';
 import { ApiClient } from '../../core/api/api-client';
 import { ApiPage } from '../../core/api/api-types';
 import {
-  AdminRole,
-  AdminUserDetail,
-  AdminUserSummary,
-  CreateUserRequest,
-  PermissionDescriptor,
-  RoleWriteRequest,
-  UpdateUserRequest,
-  UserListQuery,
-} from './access.models';
+  PermissionRead,
+  RoleCreate,
+  RoleRead,
+  RoleUpdate,
+  UserCreate,
+  UserRead,
+  UserUpdate,
+} from '../../core/api/schemas';
+import { UserListQuery } from './access.models';
 
 @Injectable({ providedIn: 'root' })
 export class AccessApi {
   private readonly api = inject(ApiClient);
 
-  users(query: UserListQuery): Observable<ApiPage<AdminUserSummary>> {
-    return this.api.getPage<AdminUserSummary>('/admin/users', query);
+  users(query: UserListQuery): Observable<ApiPage<UserRead>> {
+    return this.api.getPage<UserRead>('/admin/users', query);
   }
-  user(id: string): Observable<AdminUserDetail> {
-    return this.api.get<AdminUserDetail>(`/admin/users/${encodeURIComponent(id)}`);
+  user(id: number): Observable<UserRead> {
+    return this.api.get<UserRead>(`/admin/users/${id}`);
   }
-  createUser(body: CreateUserRequest): Observable<AdminUserDetail> {
-    return this.api.post<AdminUserDetail>('/admin/users', body);
+  createUser(body: UserCreate): Observable<UserRead> {
+    return this.api.post<UserRead>('/admin/users', body);
   }
-  updateUser(id: string, body: UpdateUserRequest): Observable<AdminUserDetail> {
-    return this.api.patch<AdminUserDetail>(`/admin/users/${encodeURIComponent(id)}`, body);
+  updateUser(id: number, body: UserUpdate): Observable<UserRead> {
+    return this.api.patch<UserRead>(`/admin/users/${id}`, body);
   }
 
-  /** There is no GET /admin/roles/{id} in the agreed contract, so the role form reads from this list. */
-  roles(): Observable<ApiPage<AdminRole>> {
-    return this.api.getPage<AdminRole>('/admin/roles', { page: 1, pageSize: 200 });
+  /** Not paginated. There is no GET by id (open question Q17): forms read from this list. */
+  roles(): Observable<RoleRead[]> {
+    return this.api.get<RoleRead[]>('/admin/roles');
   }
-  createRole(body: RoleWriteRequest): Observable<AdminRole> {
-    return this.api.post<AdminRole>('/admin/roles', body);
+  createRole(body: RoleCreate): Observable<RoleRead> {
+    return this.api.post<RoleRead>('/admin/roles', body);
   }
-  updateRole(id: string, body: RoleWriteRequest): Observable<AdminRole> {
-    return this.api.patch<AdminRole>(`/admin/roles/${encodeURIComponent(id)}`, body);
+  updateRole(id: number, body: RoleUpdate): Observable<RoleRead> {
+    return this.api.patch<RoleRead>(`/admin/roles/${id}`, body);
   }
-  permissions(): Observable<PermissionDescriptor[]> {
-    return this.api.get<PermissionDescriptor[]>('/admin/permissions');
+  deleteRole(id: number): Observable<void> {
+    return this.api.delete(`/admin/roles/${id}`);
+  }
+  permissions(): Observable<PermissionRead[]> {
+    return this.api.get<PermissionRead[]>('/admin/permissions');
   }
 }

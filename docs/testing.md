@@ -17,3 +17,5 @@ Customers additions: list (paging/sort params, contact fallbacks, error+retry), 
 Dashboard additions: range param + real figures, status breakdown with raw fallback, chart only with real sales, honest empty states, optional cards omitted (zero still shown), permission-aware links, range switch keeps old data dimmed, stale response cancelled, error+retry, no request without `reports.read`; bar chart (scaling, tiny/zero values, a11y table, label thinning); Jalali short date.
 
 Contract-core (A1): API error mapping by code (Persian messages for every documented code, field errors, trace id, Retry-After), X-Request-Id, admin auth against `/admin/auth/*` (no custom headers), Toman formatting/parsing, nav/route consistency.
+
+Access-control v2 (B1): see docs/modules/access-control.md (41 tests).

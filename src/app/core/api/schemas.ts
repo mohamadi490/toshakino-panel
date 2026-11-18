@@ -13,3 +13,10 @@ export type RoleBrief = S['RoleBrief'];
 export type Pagination = S['Pagination'];
 export type FieldError = S['FieldError'];
 export type ProblemDetails = S['ProblemDetails'];
+
+export type UserCreate = S['UserCreate'];
+export type UserUpdate = S['UserUpdate'];
+export type RoleRead = S['RoleRead'];
+export type RoleCreate = S['RoleCreate'];
+export type RoleUpdate = S['RoleUpdate'];
+export type PermissionRead = S['PermissionRead'];
