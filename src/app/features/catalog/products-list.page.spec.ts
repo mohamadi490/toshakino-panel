@@ -88,10 +88,13 @@ describe('ProductsListPage', () => {
     signIn([Permissions.ProductsRead]);
     const f = TestBed.createComponent(ProductsListPage);
     await f.whenStable();
-    expectApi('GET', '/admin/products').flush({ detail: 'قطع' }, { status: 500, statusText: 'x' });
+    expectApi('GET', '/admin/products').flush(
+      { code: 'internal_error' },
+      { status: 500, statusText: 'x' },
+    );
     await f.whenStable();
     const el = f.nativeElement as HTMLElement;
-    expect(el.querySelector('[role=alert]')?.textContent).toContain('قطع');
+    expect(el.querySelector('[role=alert]')?.textContent).toContain('خطایی در سرور');
     el.querySelector<HTMLButtonElement>('[role=alert] button')!.click();
     expectApi('GET', '/admin/products').flush(page([]));
   });

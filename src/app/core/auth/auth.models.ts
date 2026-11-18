@@ -1,30 +1,14 @@
-import { Permission } from '../authorization/permissions';
+import { AdminLogin, UserRead } from '../api/schemas';
 
-export interface LoginRequest {
-  identifier: string;
-  password: string;
-}
+/** `POST /admin/auth/login` body. */
+export type LoginRequest = AdminLogin;
 
-/** POST /auth/admin/login and POST /auth/refresh response `data` (legacy pre-OpenAPI model, see docs/roadmap.md A1). */
-export interface TokenResponse {
-  accessToken: string;
-  tokenType?: 'Bearer';
-  /** seconds until the access token expires */
-  expiresIn: number;
-}
+/** `GET /auth/me` response: one role plus the effective permission codes. */
+export type CurrentUser = UserRead;
 
-export interface AuthRole {
-  id: string;
-  name: string;
-  isSystem?: boolean;
-}
-
-/** GET /auth/me response `data`. */
-export interface CurrentUser {
-  id: string;
-  displayName: string;
-  email?: string | null;
-  mobile?: string | null;
-  roles: AuthRole[];
-  permissions: Permission[];
+/** Best human label for a user: full name, then username, email, mobile, finally the id. */
+export function userDisplayName(
+  user: Pick<UserRead, 'id' | 'fullName' | 'username' | 'email' | 'mobile'>,
+): string {
+  return user.fullName || user.username || user.email || user.mobile || `#${user.id}`;
 }

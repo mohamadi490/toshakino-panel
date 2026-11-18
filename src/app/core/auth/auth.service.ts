@@ -14,13 +14,16 @@ import {
 import { ApiClient } from '../api/api-client';
 import { ApiEnvelope } from '../api/api-types';
 import { SKIP_AUTH } from '../api/http-context';
-import { CurrentUser, LoginRequest, TokenResponse } from './auth.models';
+import { SessionRead } from '../api/schemas';
+import { CurrentUser, LoginRequest } from './auth.models';
 import { AuthStore } from './auth.store';
 
-/** Custom header the backend can require on cookie-based endpoints (CSRF defence in depth). */
-export const CSRF_HEADER = 'X-Requested-With';
-export const CSRF_VALUE = 'toshakino-admin';
-
+/**
+ * Admin session (contract: docs/contracts/backend-frontend-guide.md "احراز هویت").
+ * - access token: memory only; refresh token: HttpOnly cookie (hence `withCredentials`).
+ * - NO custom headers on these calls: CORS only allows Authorization, Content-Type,
+ *   Idempotency-Key and X-Request-Id.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
@@ -37,30 +40,30 @@ export class AuthService {
 
   login(req: LoginRequest): Observable<CurrentUser> {
     return this.http
-      .post<ApiEnvelope<TokenResponse>>(
-        this.api.url('/auth/admin/login'),
-        req,
-        this.cookieOptions(),
-      )
+      .post<ApiEnvelope<SessionRead>>(this.api.url('/admin/auth/login'), req, this.cookieOptions())
       .pipe(
         tap((r) => this.store.setToken(r.data.accessToken)),
         switchMap(() => this.loadCurrentUser()),
       );
   }
 
-  /** GET /auth/me - revalidates identity, roles and effective permissions from the backend. */
+  /** `GET /auth/me` - revalidates identity, role and effective permissions from the backend. */
   loadCurrentUser(): Observable<CurrentUser> {
     return this.api.get<CurrentUser>('/auth/me').pipe(tap((u) => this.store.setSession(u)));
   }
 
   /**
-   * Single-flight refresh: concurrent callers (e.g. several 401s at once)
-   * share one request. Emits the new access token.
+   * Single-flight refresh: every refresh rotates the token, so concurrent callers MUST share one
+   * request (a parallel second refresh would invalidate the session). Emits the new access token.
    */
   refresh(): Observable<string> {
     if (!this.refreshInFlight$) {
       this.refreshInFlight$ = this.http
-        .post<ApiEnvelope<TokenResponse>>(this.api.url('/auth/refresh'), {}, this.cookieOptions())
+        .post<ApiEnvelope<SessionRead>>(
+          this.api.url('/admin/auth/refresh'),
+          {},
+          this.cookieOptions(),
+        )
         .pipe(
           map((r) => r.data.accessToken),
           tap((t) => this.store.setToken(t)),
@@ -86,7 +89,7 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(this.api.url('/auth/logout'), {}, this.cookieOptions()).pipe(
+    return this.http.post<void>(this.api.url('/admin/auth/logout'), {}, this.cookieOptions()).pipe(
       // Local state is wiped even when the network call fails.
       catchError((e: unknown) => {
         this.endSession();
@@ -105,10 +108,6 @@ export class AuthService {
   }
 
   private cookieOptions() {
-    return {
-      withCredentials: true,
-      headers: { [CSRF_HEADER]: CSRF_VALUE },
-      context: new HttpContext().set(SKIP_AUTH, true),
-    };
+    return { withCredentials: true, context: new HttpContext().set(SKIP_AUTH, true) };
   }
 }

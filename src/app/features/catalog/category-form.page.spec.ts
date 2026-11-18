@@ -92,7 +92,7 @@ describe('CategoryFormPage', () => {
     fill(el, 'slug', 'taken');
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     expectApi('POST', '/admin/categories').flush(
-      { code: 'slug_conflict', fieldErrors: { slug: ['این اسلاگ قبلاً استفاده شده است.'] } },
+      { code: 'slug_taken' },
       { status: 409, statusText: 'x' },
     );
     await f.whenStable();

@@ -1,3 +1,4 @@
+import { testUser } from '../../../testing/api-test-utils';
 import { TestBed } from '@angular/core/testing';
 import { Permissions } from '../authorization/permissions';
 import { AuthStore } from './auth.store';
@@ -16,12 +17,7 @@ describe('AuthStore', () => {
   });
 
   it('exposes effective permissions after setSession', () => {
-    store.setSession({
-      id: '1',
-      displayName: 'م',
-      roles: [],
-      permissions: [Permissions.OrdersRead],
-    });
+    store.setSession(testUser([Permissions.OrdersRead]));
     expect(store.isAuthenticated()).toBe(true);
     expect(store.can({ all: [Permissions.OrdersRead] })).toBe(true);
     expect(store.can({ all: [Permissions.OrdersCancel] })).toBe(false);
@@ -29,12 +25,7 @@ describe('AuthStore', () => {
 
   it('clear() wipes token, user and permissions', () => {
     store.setToken('abc');
-    store.setSession({
-      id: '1',
-      displayName: 'م',
-      roles: [],
-      permissions: [Permissions.OrdersRead],
-    });
+    store.setSession(testUser([Permissions.OrdersRead]));
     store.clear();
     expect(store.accessToken).toBeNull();
     expect(store.user()).toBeNull();
@@ -46,5 +37,18 @@ describe('AuthStore', () => {
     store.setToken('super-secret-token');
     const dump = JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage });
     expect(dump).not.toContain('super-secret-token');
+  });
+});
+
+import { userDisplayName } from './auth.models';
+
+describe('userDisplayName', () => {
+  const base = { id: 7, fullName: null, username: null, email: null, mobile: null };
+  it('prefers full name, then username, email, mobile, then the id', () => {
+    expect(userDisplayName({ ...base, fullName: 'سارا', username: 'sara' })).toBe('سارا');
+    expect(userDisplayName({ ...base, username: 'sara', email: 's@x.ir' })).toBe('sara');
+    expect(userDisplayName({ ...base, email: 's@x.ir', mobile: '0912' })).toBe('s@x.ir');
+    expect(userDisplayName({ ...base, mobile: '09121234567' })).toBe('09121234567');
+    expect(userDisplayName(base)).toBe('#7');
   });
 });

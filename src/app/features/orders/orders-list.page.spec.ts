@@ -72,10 +72,13 @@ describe('OrdersListPage', () => {
   it('shows the error state and retries', async () => {
     const f = TestBed.createComponent(OrdersListPage);
     await f.whenStable();
-    expectApi('GET', '/admin/orders').flush({ detail: 'قطع' }, { status: 500, statusText: 'x' });
+    expectApi('GET', '/admin/orders').flush(
+      { code: 'internal_error' },
+      { status: 500, statusText: 'x' },
+    );
     await f.whenStable();
     const el = f.nativeElement as HTMLElement;
-    expect(el.querySelector('[role=alert]')?.textContent).toContain('قطع');
+    expect(el.querySelector('[role=alert]')?.textContent).toContain('خطایی در سرور');
     el.querySelector<HTMLButtonElement>('[role=alert] button')!.click();
     expectApi('GET', '/admin/orders').flush(page([]));
   });

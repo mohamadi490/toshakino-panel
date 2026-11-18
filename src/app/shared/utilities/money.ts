@@ -1,14 +1,12 @@
 import { normalizeDigits } from './digits';
 
-/** Canonical money unit is integer Rial (IRR). Toman = Rial / 10 (integer division). */
-export type CurrencyUnit = 'toman' | 'rial';
-
-export function rialToToman(rial: number): number {
-  return Math.trunc(rial / 10);
-}
-
-export function tomanToRial(toman: number): number {
-  return Math.trunc(toman) * 10;
+/** The API sends money as integer **Toman**; the UI shows and edits Toman directly (no conversion). */
+export function formatMoney(toman: number | null | undefined): string {
+  if (toman === null || toman === undefined || !Number.isFinite(toman)) return '—';
+  const digits = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 0 }).format(
+    Math.trunc(toman),
+  );
+  return `${digits} تومان`;
 }
 
 /**
@@ -19,11 +17,4 @@ export function parseTomanInput(value: string): number | null {
   const cleaned = normalizeDigits(value).replace(/[,٬\s]/g, '');
   if (!/^\d{1,13}$/.test(cleaned)) return null;
   return Number(cleaned);
-}
-
-export function formatMoney(rial: number | null | undefined, unit: CurrencyUnit = 'toman'): string {
-  if (rial === null || rial === undefined || !Number.isFinite(rial)) return '—';
-  const value = unit === 'toman' ? rialToToman(rial) : Math.trunc(rial);
-  const digits = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 0 }).format(value);
-  return `${digits} ${unit === 'toman' ? 'تومان' : 'ریال'}`;
 }

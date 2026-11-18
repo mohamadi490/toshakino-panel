@@ -3,18 +3,18 @@ import { PagedList, PagedResponse } from './paged-list';
 
 const page = (items: number[], p = 1): PagedResponse<number> => ({
   data: items,
-  meta: { page: p, pageSize: 20, totalItems: items.length, totalPages: 1 },
+  pagination: { page: p, pageSize: 20, totalItems: items.length, totalPages: 1 },
 });
 
 describe('PagedList', () => {
-  it('loads items and meta', () => {
+  it('loads items and pagination', () => {
     const l = new PagedList<number, void>(
       () => of(page([1, 2])),
       () => 'err',
     );
     l.load(undefined);
     expect(l.items()).toEqual([1, 2]);
-    expect(l.meta()?.totalItems).toBe(2);
+    expect(l.pagination()?.totalItems).toBe(2);
     expect(l.loading()).toBe(false);
   });
 

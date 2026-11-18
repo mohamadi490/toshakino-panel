@@ -12,6 +12,7 @@ import { routes } from './app.routes';
 import { authInterceptor } from './core/api/auth.interceptor';
 import { errorInterceptor } from './core/api/error.interceptor';
 import { loadingInterceptor } from './core/api/loading.interceptor';
+import { requestIdInterceptor } from './core/api/request-id.interceptor';
 import { AuthService } from './core/auth/auth.service';
 import { BrandService } from './core/brand/brand.service';
 import { AppConfig } from './core/config/app-config';
@@ -27,7 +28,12 @@ export const appConfig: ApplicationConfig = {
     // (after authInterceptor has already refreshed/retried a 401).
     provideHttpClient(
       withFetch(),
-      withInterceptors([loadingInterceptor, errorInterceptor, authInterceptor]),
+      withInterceptors([
+        loadingInterceptor,
+        requestIdInterceptor,
+        errorInterceptor,
+        authInterceptor,
+      ]),
     ),
     provideAppInitializer(async () => {
       inject(ThemeService); // apply appearance immediately

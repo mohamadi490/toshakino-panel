@@ -69,7 +69,7 @@ describe('ProductFormPage', () => {
     return { f, el: f.nativeElement as HTMLElement };
   }
 
-  it('converts Toman input (Persian digits, separators) to integer Rial on create', async () => {
+  it('sends Toman amounts (Persian digits, separators) as integers on create', async () => {
     const { f, el } = await create();
     vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
     fill(el, '#title', 'تشک طبی');
@@ -83,8 +83,8 @@ describe('ProductFormPage', () => {
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     const req = expectApi('POST', '/admin/products');
     const v = (req.request.body as { variants: Record<string, unknown>[] }).variants[0]!;
-    expect(v['priceRial']).toBe(125_000_000);
-    expect(v['salePriceRial']).toBe(110_000_000);
+    expect(v['priceRial']).toBe(12_500_000);
+    expect(v['salePriceRial']).toBe(11_000_000);
     expect(v['weightGrams']).toBe(12000);
     expect(v['sku']).toBe('MED-90');
     req.flush({ data: detail() });
@@ -153,9 +153,9 @@ describe('ProductFormPage', () => {
     req.flush({ data: detail() });
   });
 
-  it('loads an existing product converting Rial back to Toman', async () => {
+  it('loads an existing product price as-is (Toman)', async () => {
     const { el } = await edit();
-    expect(el.querySelector<HTMLInputElement>('#price-0')!.value).toBe('12500000');
+    expect(el.querySelector<HTMLInputElement>('#price-0')!.value).toBe('125000000');
     expect(el.querySelector<HTMLInputElement>('#sku-0')!.value).toBe('SOFT-90');
     expect(el.textContent).toContain('پیش‌نویس');
   });
@@ -166,12 +166,9 @@ describe('ProductFormPage', () => {
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     const req = expectApi('PATCH', '/admin/products/p1');
     expect((req.request.body as { variants: { id?: string }[] }).variants[0]!.id).toBe('v1');
-    req.flush(
-      { code: 'conflict', fieldErrors: { slug: ['اسلاگ تکراری است.'] } },
-      { status: 409, statusText: 'x' },
-    );
+    req.flush({ code: 'slug_taken' }, { status: 409, statusText: 'x' });
     await f.whenStable();
-    expect(el.textContent).toContain('اسلاگ تکراری است.');
+    expect(el.textContent).toContain('این اسلاگ قبلاً استفاده شده است.');
   });
 
   const publishButton = (el: HTMLElement) =>
@@ -222,7 +219,7 @@ describe('ProductFormPage', () => {
     await f.whenStable();
     expectApi('GET', '/admin/categories').flush(page([]));
     expectApi('GET', '/admin/products/zzz').flush(
-      { detail: 'محصول پیدا نشد' },
+      { code: 'product_not_found' },
       { status: 404, statusText: 'x' },
     );
     await f.whenStable();

@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 
 export interface PagedResponse<T> {
   data: T[];
-  meta: { page: number; pageSize: number; totalItems: number; totalPages: number };
+  pagination: { page: number; pageSize: number; totalItems: number; totalPages: number };
 }
 
 /**
@@ -12,7 +12,7 @@ export interface PagedResponse<T> {
  */
 export class PagedList<T, Q> {
   readonly items = signal<T[]>([]);
-  readonly meta = signal<PagedResponse<T>['meta'] | null>(null);
+  readonly pagination = signal<PagedResponse<T>['pagination'] | null>(null);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   private sub: Subscription | null = null;
@@ -29,7 +29,7 @@ export class PagedList<T, Q> {
     this.sub = this.fetch(query).subscribe({
       next: (res) => {
         this.items.set(res.data);
-        this.meta.set(res.meta);
+        this.pagination.set(res.pagination);
         this.loading.set(false);
       },
       error: (err: unknown) => {

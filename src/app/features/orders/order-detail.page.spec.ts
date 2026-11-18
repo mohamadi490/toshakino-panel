@@ -199,13 +199,13 @@ describe('OrderDetailPage', () => {
     await f.whenStable();
     const first = expectApi('PATCH', '/admin/orders/o1/status');
     const key = first.request.headers.get('Idempotency-Key');
-    first.flush({ detail: 'قطع' }, { status: 503, statusText: 'x' });
+    first.flush({ code: 'internal_error' }, { status: 503, statusText: 'x' });
     await f.whenStable();
     submit();
     await f.whenStable();
     const second = expectApi('PATCH', '/admin/orders/o1/status');
     expect(second.request.headers.get('Idempotency-Key')).toBe(key);
-    second.flush({ detail: 'قطع' }, { status: 503, statusText: 'x' });
+    second.flush({ code: 'internal_error' }, { status: 503, statusText: 'x' });
     await f.whenStable();
     await select('cancelled');
     await select('shipped'); // value changes twice => fresh key for a new intent
@@ -222,7 +222,7 @@ describe('OrderDetailPage', () => {
     submit();
     await f.whenStable();
     expectApi('PATCH', '/admin/orders/o1/status').flush(
-      { detail: 'وضعیت تغییر کرده است.' },
+      { code: 'invalid_status_transition' },
       { status: 409, statusText: 'x' },
     );
     await f.whenStable();
@@ -237,7 +237,7 @@ describe('OrderDetailPage', () => {
     f.componentRef.setInput('id', 'o1');
     await f.whenStable();
     expectApi('GET', '/admin/orders/o1').flush(
-      { detail: 'سفارش پیدا نشد' },
+      { code: 'order_not_found' },
       { status: 404, statusText: 'x' },
     );
     await f.whenStable();

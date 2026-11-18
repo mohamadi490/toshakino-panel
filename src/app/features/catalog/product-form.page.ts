@@ -27,7 +27,7 @@ import { slugValidator } from '../../shared/forms/validators';
 import { ButtonComponent } from '../../shared/ui/button';
 import { IconComponent } from '../../shared/ui/icon';
 import { normalizeDigits } from '../../shared/utilities/digits';
-import { parseTomanInput, rialToToman, tomanToRial } from '../../shared/utilities/money';
+import { parseTomanInput } from '../../shared/utilities/money';
 import { CatalogApi } from './catalog.api';
 import {
   ProductDetail,
@@ -509,11 +509,8 @@ export class ProductFormPage {
           v?.sku ?? '',
           [Validators.required, Validators.maxLength(64), Validators.pattern(/^[A-Za-z0-9._-]+$/)],
         ],
-        price: [v ? String(rialToToman(v.priceRial)) : '', [priceValidator]],
-        salePrice: [
-          v?.salePriceRial ? String(rialToToman(v.salePriceRial)) : '',
-          [optionalTomanValidator],
-        ],
+        price: [v ? String(v.priceRial) : '', [priceValidator]],
+        salePrice: [v?.salePriceRial ? String(v.salePriceRial) : '', [optionalTomanValidator]],
         weightGrams: [
           v?.weightGrams ? String(v.weightGrams) : '',
           [Validators.pattern(/^[0-9۰-۹]*$/)],
@@ -624,8 +621,8 @@ export class ProductFormPage {
           ...(g.id ? { id: g.id } : {}),
           sku: g.sku.trim(),
           options: g.options.map((o) => ({ name: o.name.trim(), value: o.value.trim() })),
-          priceRial: tomanToRial(parseTomanInput(g.price) ?? 0),
-          salePriceRial: sale === null || sale === 0 ? null : tomanToRial(sale),
+          priceRial: parseTomanInput(g.price) ?? 0,
+          salePriceRial: sale === null || sale === 0 ? null : sale,
           weightGrams: weight === '' ? null : Number(weight),
           isActive: g.isActive,
         };

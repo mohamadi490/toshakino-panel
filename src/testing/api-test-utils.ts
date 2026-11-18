@@ -1,12 +1,31 @@
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { UserRead } from '../app/core/api/schemas';
 import { AuthStore } from '../app/core/auth/auth.store';
-import { Permission, Permissions } from '../app/core/authorization/permissions';
+import { Permissions } from '../app/core/authorization/permissions';
 
 export const BASE = 'https://api.tashkino.ir/api/v1';
 
-export function signIn(permissions: Permission[] = Object.values(Permissions), id = 'me'): void {
-  TestBed.inject(AuthStore).setSession({ id, displayName: 'مدیر', roles: [], permissions });
+/** A contract-shaped admin user (one role, string permission codes). */
+export function testUser(
+  permissions: readonly string[] = Object.values(Permissions),
+  id = 1,
+): UserRead {
+  return {
+    id,
+    email: 'admin@tashkino.ir',
+    username: 'admin',
+    mobile: null,
+    fullName: 'مدیر',
+    role: { id: 1, name: 'مدیر کل', isStaff: true },
+    permissions: [...permissions],
+    isActive: true,
+    createdAt: '2026-01-01T00:00:00Z',
+  };
+}
+
+export function signIn(permissions: readonly string[] = Object.values(Permissions), id = 1): void {
+  TestBed.inject(AuthStore).setSession(testUser(permissions, id));
 }
 
 export function expectApi(method: string, path: string): TestRequest {
@@ -15,5 +34,5 @@ export function expectApi(method: string, path: string): TestRequest {
 }
 
 export function page<T>(data: T[]) {
-  return { data, meta: { page: 1, pageSize: 20, totalItems: data.length, totalPages: 1 } };
+  return { data, pagination: { page: 1, pageSize: 20, totalItems: data.length, totalPages: 1 } };
 }

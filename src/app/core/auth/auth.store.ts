@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { satisfies } from '../authorization/permission-evaluator';
 import { PermissionRequirement } from '../authorization/permissions';
-import { CurrentUser } from './auth.models';
+import { CurrentUser, userDisplayName } from './auth.models';
 
 export type AuthStatus = 'unknown' | 'authenticated' | 'anonymous';
 
@@ -17,6 +17,10 @@ export class AuthStore {
 
   readonly user = this._user.asReadonly();
   readonly status = this._status.asReadonly();
+  readonly displayName = computed(() => {
+    const u = this._user();
+    return u ? userDisplayName(u) : '';
+  });
   readonly isAuthenticated = computed(() => this._status() === 'authenticated');
   readonly permissionSet = computed<ReadonlySet<string>>(
     () => new Set(this._user()?.permissions ?? []),

@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CurrencyUnit, formatMoney } from '../utilities/money';
 import { formatJalaliDate, formatJalaliDateTime } from '../utilities/jalali-date';
+import { formatMoney } from '../utilities/money';
 
 @Pipe({ name: 'money' })
 export class MoneyPipe implements PipeTransform {
-  transform(rial: number | null | undefined, unit: CurrencyUnit = 'toman'): string {
-    return formatMoney(rial, unit);
+  /** `toman` is the contract's integer Toman. */
+  transform(toman: number | null | undefined): string {
+    return formatMoney(toman);
   }
 }
 
