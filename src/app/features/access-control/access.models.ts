@@ -1,4 +1,9 @@
-import { AuthRole } from '../../core/auth/auth.models';
+/** Legacy shape; replaced by the contract's RoleBrief in B1. */
+export interface AuthRole {
+  id: string;
+  name: string;
+  isSystem?: boolean;
+}
 
 /*
  * LEGACY pre-OpenAPI model: being replaced per docs/roadmap.md (contract: docs/contracts/openapi.json).

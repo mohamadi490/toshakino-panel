@@ -144,12 +144,12 @@ describe('DashboardPage', () => {
     const f = TestBed.createComponent(DashboardPage);
     await f.whenStable();
     expectApi('GET', '/admin/dashboard/summary').flush(
-      { detail: 'آمار در دسترس نیست' },
+      { code: 'internal_error' },
       { status: 500, statusText: 'x' },
     );
     await f.whenStable();
     const el = f.nativeElement as HTMLElement;
-    expect(el.querySelector('[role=alert]')!.textContent).toContain('آمار در دسترس نیست');
+    expect(el.querySelector('[role=alert]')!.textContent).toContain('خطایی در سرور');
     el.querySelector<HTMLButtonElement>('[role=alert] button')!.click();
     expectApi('GET', '/admin/dashboard/summary').flush({ data: summary() });
   });

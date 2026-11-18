@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
+import { testUser } from '../../../testing/api-test-utils';
 import { LoginPage } from './login.page';
 
 const BASE = 'https://api.tashkino.ir/api/v1';
@@ -20,7 +21,7 @@ describe('LoginPage', () => {
     const http = TestBed.inject(HttpTestingController);
     (f.nativeElement as HTMLElement).querySelector('form')!.dispatchEvent(new Event('submit'));
     await f.whenStable();
-    http.expectNone(`${BASE}/auth/admin/login`);
+    http.expectNone(`${BASE}/admin/auth/login`);
     expect((f.nativeElement as HTMLElement).textContent).toContain('این فیلد الزامی است.');
   });
 
@@ -37,7 +38,7 @@ describe('LoginPage', () => {
     pw.dispatchEvent(new Event('input'));
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     http
-      .expectOne(`${BASE}/auth/admin/login`)
+      .expectOne(`${BASE}/admin/auth/login`)
       .flush({ title: 'bad' }, { status: 401, statusText: 'Unauthorized' });
     await f.whenStable();
     expect(el.textContent).toContain('اطلاعات ورود صحیح نیست.');
@@ -57,11 +58,9 @@ describe('LoginPage', () => {
     el.querySelector<HTMLInputElement>('#password')!.dispatchEvent(new Event('input'));
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     http
-      .expectOne(`${BASE}/auth/admin/login`)
+      .expectOne(`${BASE}/admin/auth/login`)
       .flush({ data: { accessToken: 'T', expiresIn: 900 } });
-    http
-      .expectOne(`${BASE}/auth/me`)
-      .flush({ data: { id: '1', displayName: 'م', roles: [], permissions: [] } });
+    http.expectOne(`${BASE}/auth/me`).flush({ data: testUser([]) });
     expect(nav).toHaveBeenCalledWith('/dashboard');
   });
 });

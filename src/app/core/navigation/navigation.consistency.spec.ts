@@ -1,8 +1,6 @@
 import { Route } from '@angular/router';
 import { ACCESS_ROUTES } from '../../features/access-control/access.routes';
 import { CATALOG_ROUTES } from '../../features/catalog/catalog.routes';
-import { CUSTOMERS_ROUTES } from '../../features/customers/customers.routes';
-import { INVENTORY_ROUTES } from '../../features/inventory/inventory.routes';
 import { ORDERS_ROUTES } from '../../features/orders/orders.routes';
 import { ICON_NAMES } from '../../shared/ui/icon';
 import { NAV_ITEMS } from './navigation';
@@ -10,9 +8,7 @@ import { NAV_ITEMS } from './navigation';
 /** Lazy feature route trees, keyed by their mount point in app.routes.ts. */
 const FEATURES: Record<string, Route[]> = {
   '/orders': ORDERS_ROUTES,
-  '/customers': CUSTOMERS_ROUTES,
   '/catalog': CATALOG_ROUTES,
-  '/inventory': INVENTORY_ROUTES,
   '/access': ACCESS_ROUTES,
 };
 
@@ -30,10 +26,8 @@ describe('navigation consistency', () => {
     expect(NAV_ITEMS.map((i) => i.id)).toEqual([
       'dashboard',
       'orders',
-      'customers',
       'products',
       'categories',
-      'inventory',
       'users',
       'roles',
     ]);

@@ -83,7 +83,7 @@ describe('UserFormPage', () => {
     fill(el, 'password', 'a-very-long-password');
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     expectApi('POST', '/admin/users').flush(
-      { code: 'validation_error', fieldErrors: { email: ['این ایمیل قبلاً ثبت شده است.'] } },
+      { code: 'email_taken' },
       { status: 422, statusText: 'x' },
     );
     await f.whenStable();

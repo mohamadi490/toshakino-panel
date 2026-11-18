@@ -94,7 +94,7 @@ import { IconComponent } from '../../shared/ui/icon';
           <app-appearance-toggle />
           <div class="flex items-center gap-2 border-s border-border ps-3">
             <div class="text-end leading-tight max-sm:hidden">
-              <p class="m-0 text-sm font-medium">{{ store.user()?.displayName }}</p>
+              <p class="m-0 text-sm font-medium">{{ store.displayName() }}</p>
               <p class="m-0 text-xs text-muted">{{ roleNames() }}</p>
             </div>
             <button
@@ -124,9 +124,7 @@ export class AdminShellComponent {
 
   protected readonly collapsed = signal(false);
   protected readonly mobileOpen = signal(false);
-  protected readonly roleNames = computed(() =>
-    (this.store.user()?.roles ?? []).map((r) => r.name).join('، '),
-  );
+  protected readonly roleNames = computed(() => this.store.user()?.role.name ?? '');
   protected readonly padStart = computed(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) return '0';
     return this.collapsed() ? 'var(--ds-sidebar-width-collapsed)' : 'var(--ds-sidebar-width)';

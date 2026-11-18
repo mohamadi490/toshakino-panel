@@ -115,7 +115,7 @@ type StatusFilter = '' | 'active' | 'inactive';
       </ng-template>
     </app-data-table>
 
-    @if (list.meta(); as m) {
+    @if (list.pagination(); as m) {
       <app-pagination
         [page]="m.page"
         [totalPages]="m.totalPages"
@@ -190,7 +190,9 @@ export class UsersListPage {
 
   /** UX only: backend decides. Users cannot disable themselves from here. */
   protected canToggle(u: AdminUserSummary): boolean {
-    return this.store.can({ all: [Permissions.UsersDisable] }) && u.id !== this.store.user()?.id;
+    return (
+      this.store.can({ all: [Permissions.UsersDisable] }) && u.id !== String(this.store.user()?.id)
+    );
   }
 
   protected async toggle(u: AdminUserSummary): Promise<void> {

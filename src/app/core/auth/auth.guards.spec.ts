@@ -1,3 +1,4 @@
+import { testUser } from '../../../testing/api-test-utils';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -32,22 +33,17 @@ describe('guards', () => {
   });
 
   it('authGuard allows authenticated users', () => {
-    store.setSession({ id: '1', displayName: 'م', roles: [], permissions: [] });
+    store.setSession(testUser([]));
     expect(run(() => authGuard(route(), state('/')))).toBe(true);
   });
 
   it('guestGuard sends authenticated users away from /login', () => {
-    store.setSession({ id: '1', displayName: 'م', roles: [], permissions: [] });
+    store.setSession(testUser([]));
     expect(asPath(run(() => guestGuard(route(), state('/login'))))).toBe('/');
   });
 
   it('permissionGuard allows with the required permission', () => {
-    store.setSession({
-      id: '1',
-      displayName: 'م',
-      roles: [],
-      permissions: [Permissions.OrdersRead],
-    });
+    store.setSession(testUser([Permissions.OrdersRead]));
     expect(
       run(() =>
         permissionGuard(
@@ -59,7 +55,7 @@ describe('guards', () => {
   });
 
   it('permissionGuard redirects to /forbidden without the permission', () => {
-    store.setSession({ id: '1', displayName: 'م', roles: [], permissions: [] });
+    store.setSession(testUser([]));
     const r = run(() =>
       permissionGuard(route({ permissions: { all: [Permissions.OrdersRead] } }), state('/orders')),
     );
@@ -67,12 +63,7 @@ describe('guards', () => {
   });
 
   it('permissionGuard denies a route that declares no policy', () => {
-    store.setSession({
-      id: '1',
-      displayName: 'م',
-      roles: [],
-      permissions: [Permissions.OrdersRead],
-    });
+    store.setSession(testUser([Permissions.OrdersRead]));
     expect(asPath(run(() => permissionGuard(route(), state('/x'))))).toBe('/forbidden');
   });
 });

@@ -34,7 +34,7 @@ const fa = (n: number) => new Intl.NumberFormat('fa-IR').format(n);
   template: `
     <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
       <div>
-        <h1 class="m-0">سلام {{ store.user()?.displayName }}</h1>
+        <h1 class="m-0">سلام {{ store.displayName() }}</h1>
         @if (periodText(); as p) {
           <p class="m-0 text-sm text-muted">{{ p }}</p>
         }

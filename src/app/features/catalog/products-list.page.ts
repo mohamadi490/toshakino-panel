@@ -142,7 +142,7 @@ import { flattenCategoryTree } from './category-tree';
       </ng-template>
     </app-data-table>
 
-    @if (list.meta(); as m) {
+    @if (list.pagination(); as m) {
       <app-pagination
         [page]="m.page"
         [totalPages]="m.totalPages"

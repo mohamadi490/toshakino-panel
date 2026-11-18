@@ -43,7 +43,7 @@ describe('UsersListPage', () => {
     const f = TestBed.createComponent(UsersListPage);
     await f.whenStable();
     expectApi('GET', '/admin/users').flush(
-      { detail: 'سرور خراب است' },
+      { code: 'internal_error' },
       { status: 500, statusText: 'x' },
     );
     await f.whenStable();
@@ -65,12 +65,12 @@ describe('UsersListPage', () => {
   });
 
   it('does not offer to disable the current user and requires confirmation otherwise', async () => {
-    signIn(Object.values(Permissions), 'me');
+    signIn(Object.values(Permissions), 1);
     const confirm = TestBed.inject(ConfirmService);
     const spy = vi.spyOn(confirm, 'confirm').mockResolvedValue(false);
     const f = TestBed.createComponent(UsersListPage);
     await f.whenStable();
-    expectApi('GET', '/admin/users').flush(page([user('me'), user('other')]));
+    expectApi('GET', '/admin/users').flush(page([user('1'), user('other')]));
     await f.whenStable();
     const buttons = Array.from((f.nativeElement as HTMLElement).querySelectorAll('tbody button'));
     expect(buttons.length).toBe(1); // only for "other"

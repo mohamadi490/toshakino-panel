@@ -1,25 +1,24 @@
-import { formatMoney, rialToToman, tomanToRial } from './money';
+import { formatMoney, parseTomanInput } from './money';
 
-describe('money', () => {
-  it('converts Rial to Toman with integer division', () => {
-    expect(rialToToman(12_500_000)).toBe(1_250_000);
-    expect(rialToToman(15)).toBe(1);
+describe('money (contract: integer Toman)', () => {
+  it('formats Toman as-is with Persian digits and the unit', () => {
+    const out = formatMoney(1_250_000);
+    expect(out).toContain('تومان');
+    expect(out).toMatch(/^[۰-۹٬\s]+تومان$/u);
+    expect(out).toContain('۱٬۲۵۰٬۰۰۰');
   });
-  it('converts Toman to Rial', () => expect(tomanToRial(1_250_000)).toBe(12_500_000));
-  it('formats Toman by default with Persian digits', () => {
-    expect(formatMoney(12_500_000)).toContain('تومان');
-    expect(formatMoney(12_500_000)).toMatch(/[۰-۹]/);
+
+  it('does not rescale the amount', () => {
+    expect(formatMoney(10)).toContain('۱۰');
+    expect(formatMoney(0)).toContain('۰');
   });
-  it('formats Rial when requested', () =>
-    expect(formatMoney(12_500_000, 'rial')).toContain('ریال'));
+
   it('renders a dash for missing values', () => {
     expect(formatMoney(null)).toBe('—');
     expect(formatMoney(undefined)).toBe('—');
     expect(formatMoney(NaN)).toBe('—');
   });
 });
-
-import { parseTomanInput } from './money';
 
 describe('parseTomanInput', () => {
   it.each([
