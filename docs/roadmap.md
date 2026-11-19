@@ -12,13 +12,13 @@
 | PR | شاخه | ماژول | نکات |
 |---|---|---|---|
 | B1 | `feature/access-control-v2` | کاربران، نقش‌ها، مجوزها | یک نقش؛ `isStaff`؛ حذف نقش؛ `newPassword`؛ محافظت `role_protected`, `cannot_modify_self`, `last_super_admin` |
-| B2 | `feature/catalog-taxonomy` | دسته‌بندی‌ها، برندها، ویژگی‌ها | حذف نرم/بازیابی؛ درخت؛ ویژگی و مقادیر؛ خطاهای `*_in_use`, `category_*` |
-| B3 | `feature/media-library` | کتابخانه رسانه + انتخابگر تصویر | آپلود چندبخشی با پیشرفت؛ شبکه تصاویر؛ حذف؛ انتخابگر قابل‌استفاده در فرم‌ها |
+| B2 | `feature/catalog-taxonomy` | دسته‌بندی‌ها، برندها، ویژگی‌ها | فهرست‌ها بدون صفحه‌بندی؛ منو/روت دسته و برند با `categories.write` (خواندن هم همین)؛ ویژگی‌ها `products.read/write`؛ slug اختیاری (خودکار از نام) با هشدار تغییر؛ حذف نرم/بازیابی؛ پیام جدا برای `category_not_empty` و `category_has_children` |
+| B3 | `feature/media-library` | کتابخانه رسانه + انتخابگر تصویر | مجوز `media.write` (فهرست هم)؛ ۵MB و فقط JPEG/PNG/GIF/WebP (بررسی کلاینت صرفاً راهنما)؛ هشدار قبل از حذف (فایل در‌حال‌استفاده رد نمی‌شود)؛ بدون ویرایش alt |
 | B4 | `feature/products-v2` | محصولات + Variantها | ویژگی واحد، `option`، `specs`، تصاویر، برند، قیمت تخفیفی `compareAtPrice`، انتشار با `status`، حذف نرم |
-| B5 | `feature/orders-v2` | سفارش‌ها | فهرست + پنل جزئیات (اقلام، آدرس، تاریخچه)، تغییر وضعیت با `invalid_status_transition`، `expire-unpaid` |
-| B6 | `feature/dashboard-v2` | داشبورد | `days`، KPIها، سری، پرفروش‌ها، سفارش‌های اخیر، موجودی کم |
+| B5 | `feature/orders-v2` | سفارش‌ها | فهرست + پنل جزئیات (اقلام، آدرس nullable، تاریخچه)؛ جدول انتقال تأییدشده (`pending_payment→cancelled`، `paid→shipped/cancelled`، `shipped→delivered`؛ ادمین `paid` نمی‌زند)؛ `orders.update`؛ `expire-unpaid` |
+| B6 | `feature/dashboard-v2` | داشبورد | `days` (۱ تا ۳۶۵)؛ `dashboard.read`؛ تاریخ سری date-only (منطقه Asia/Tehran، بدون تبدیل)؛ KPIها، پرفروش‌ها، سفارش‌های اخیر |
 | B7 | `feature/inventory-v2` | موجودی | بر پایه Variantها + تنظیم نمایش موجودی؛ (محدودیت‌های Q6 مستند) |
-| B8 | `feature/store-settings` | تنظیمات سایت، صفحه اصلی (بنر/محصولات ویژه)، نمایش موجودی | اعتبارسنجی URL؛ انتخابگر رسانه؛ انتخاب محصولات ویژه |
+| B8 | `feature/store-settings` | تنظیمات سایت، صفحه اصلی (بنر/محصولات ویژه)، نمایش موجودی | سایت/صفحه اصلی: `content.read/write` و `PUT` با فقط فیلدهای ارسالی؛ نمایش موجودی: `settings.read/write`؛ اعتبارسنجی URL؛ انتخابگر رسانه |
 
 حذف: ماژول `customers` (endpoint ندارد؛ Q5) در PR مربوط به B1 با مستندسازی.
 
