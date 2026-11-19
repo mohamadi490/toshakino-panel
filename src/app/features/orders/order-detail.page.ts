@@ -264,10 +264,10 @@ export class OrderDetailPage {
   protected readonly saving = signal(false);
 
   protected readonly canChange = computed(() =>
-    this.store.can({ any: [Permissions.OrdersUpdateStatus, Permissions.OrdersCancel] }),
+    this.store.can({ any: [Permissions.OrdersUpdate, Permissions.OrdersUpdate] }),
   );
   protected readonly canSeeCustomer = computed(() =>
-    this.store.can({ all: [Permissions.CustomersRead] }),
+    this.store.can({ all: [Permissions.OrdersRead] }),
   );
 
   /** Only server-allowed transitions, and cancelling only with `orders.cancel` (other targets need `orders.update_status`). */
@@ -275,8 +275,8 @@ export class OrderDetailPage {
     const allowed = this.order()?.allowedTransitions ?? [];
     return allowed.filter((t) =>
       isCancelStatus(t)
-        ? this.store.can({ all: [Permissions.OrdersCancel] })
-        : this.store.can({ all: [Permissions.OrdersUpdateStatus] }),
+        ? this.store.can({ all: [Permissions.OrdersUpdate] })
+        : this.store.can({ all: [Permissions.OrdersUpdate] }),
     );
   });
 

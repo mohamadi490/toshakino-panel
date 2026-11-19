@@ -49,7 +49,7 @@ import { flattenCategoryTree } from './category-tree';
   template: `
     <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h1 class="m-0">محصولات</h1>
-      <a *appCan="{ all: [P.ProductsCreate] }" routerLink="new" class="no-underline">
+      <a *appCan="{ all: [P.ProductsWrite] }" routerLink="new" class="no-underline">
         <span
           class="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-contrast"
         >
@@ -204,7 +204,7 @@ export class ProductsListPage {
     });
     inject(DestroyRef).onDestroy(() => this.list.destroy());
 
-    if (this.store.can({ all: [Permissions.CategoriesRead] })) {
+    if (this.store.can({ all: [Permissions.CategoriesWrite] })) {
       this.api.categories().subscribe({
         next: (p: { data: Category[] }) =>
           this.categoryOptions.set(
@@ -241,7 +241,7 @@ export class ProductsListPage {
     this.list.load(this.query());
   }
   protected canPublish(): boolean {
-    return this.store.can({ all: [Permissions.ProductsPublish] });
+    return this.store.can({ all: [Permissions.ProductsWrite] });
   }
   protected statusLabel(s: PublishStatus): string {
     return STATUS_LABELS[s] ?? s;

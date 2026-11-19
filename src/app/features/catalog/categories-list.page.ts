@@ -17,7 +17,7 @@ import { CategoryNode, flattenCategoryTree } from './category-tree';
   template: `
     <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h1 class="m-0">دسته‌بندی‌ها</h1>
-      <a *appCan="{ all: [P.CategoriesManage] }" routerLink="new" class="no-underline">
+      <a *appCan="{ all: [P.CategoriesWrite] }" routerLink="new" class="no-underline">
         <span
           class="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-contrast"
         >

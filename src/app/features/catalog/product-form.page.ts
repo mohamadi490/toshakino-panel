@@ -444,11 +444,11 @@ export class ProductFormPage {
 
   protected readonly canSave = computed(() =>
     this.store.can({
-      all: [this.isEdit() ? Permissions.ProductsUpdate : Permissions.ProductsCreate],
+      all: [this.isEdit() ? Permissions.ProductsWrite : Permissions.ProductsWrite],
     }),
   );
   protected readonly canPublish = computed(() =>
-    this.store.can({ all: [Permissions.ProductsPublish] }),
+    this.store.can({ all: [Permissions.ProductsWrite] }),
   );
   /** UX hint only: the server validates publishability. */
   protected readonly publishable = computed(() => {
@@ -474,7 +474,7 @@ export class ProductFormPage {
   constructor() {
     effect(() => {
       const id = this.id();
-      if (this.store.can({ all: [Permissions.CategoriesRead] })) {
+      if (this.store.can({ all: [Permissions.CategoriesWrite] })) {
         this.api.categories().subscribe({
           next: (p) =>
             this.categoryOptions.set(

@@ -101,7 +101,7 @@ describe('DashboardPage', () => {
   });
 
   it('hides those links without orders.read / inventory.read', async () => {
-    const { el } = await open(summary(), [Permissions.ReportsRead]);
+    const { el } = await open(summary(), [Permissions.DashboardRead]);
     expect(el.querySelector('a[href="/orders"]')).toBeNull();
     expect(el.querySelector('a[href="/inventory"]')).toBeNull();
   });

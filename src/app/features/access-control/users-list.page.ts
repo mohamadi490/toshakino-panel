@@ -45,7 +45,7 @@ type StatusFilter = '' | 'active' | 'inactive';
   template: `
     <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h1 class="m-0">کاربران</h1>
-      <a *appCan="{ all: [P.UsersCreate] }" routerLink="new" class="no-underline">
+      <a *appCan="{ all: [P.UsersWrite] }" routerLink="new" class="no-underline">
         <span
           class="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-contrast"
         >
@@ -230,7 +230,7 @@ export class UsersListPage {
 
   /** UX only: the backend enforces `cannot_modify_self` and `last_super_admin`. */
   protected canToggle(u: UserRead): boolean {
-    return this.store.can({ all: [Permissions.UsersUpdate] }) && u.id !== this.store.user()?.id;
+    return this.store.can({ all: [Permissions.UsersWrite] }) && u.id !== this.store.user()?.id;
   }
 
   protected async toggle(u: UserRead): Promise<void> {

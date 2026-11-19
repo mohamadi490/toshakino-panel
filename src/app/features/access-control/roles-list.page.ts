@@ -19,7 +19,7 @@ import { AccessApi } from './access.api';
   template: `
     <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
       <h1 class="m-0">نقش‌ها و مجوزها</h1>
-      <a *appCan="{ all: [P.RolesCreate] }" routerLink="new" class="no-underline">
+      <a *appCan="{ all: [P.RolesWrite] }" routerLink="new" class="no-underline">
         <span
           class="inline-flex h-10 items-center gap-2 rounded-md bg-primary px-4 text-sm font-medium text-primary-contrast"
         >
@@ -118,7 +118,7 @@ export class RolesListPage {
 
   /** System roles are protected by the backend (`role_protected`); `role_in_use` is reported after the attempt. */
   protected canDelete(r: RoleRead): boolean {
-    return !r.isSystem && this.store.can({ all: [Permissions.RolesDelete] });
+    return !r.isSystem && this.store.can({ all: [Permissions.RolesWrite] });
   }
 
   protected async remove(r: RoleRead): Promise<void> {

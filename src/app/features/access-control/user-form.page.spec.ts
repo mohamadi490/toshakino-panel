@@ -183,7 +183,7 @@ describe('UserFormPage', () => {
   });
 
   it('create: without roles.read it warns that a role cannot be chosen', async () => {
-    const { el } = await create([Permissions.UsersCreate]);
+    const { el } = await create([Permissions.UsersWrite]);
     expect(el.textContent).toContain('به دسترسی مشاهده نقش‌ها نیاز دارید');
   });
 
@@ -261,7 +261,7 @@ describe('UserFormPage', () => {
   });
 
   it('edit: without roles.read it still shows the current role', async () => {
-    const { el } = await edit(existing(), [Permissions.UsersRead, Permissions.UsersUpdate]);
+    const { el } = await edit(existing(), [Permissions.UsersRead, Permissions.UsersWrite]);
     expect(el.querySelector<HTMLSelectElement>('#roleId')!.textContent).toContain('مدیر محتوا');
   });
 

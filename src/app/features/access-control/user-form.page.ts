@@ -234,7 +234,7 @@ export class UserFormPage {
     this.store.can({ all: [Permissions.RolesRead] }),
   );
   protected readonly canSave = computed(() =>
-    this.store.can({ all: [this.isEdit() ? Permissions.UsersUpdate : Permissions.UsersCreate] }),
+    this.store.can({ all: [this.isEdit() ? Permissions.UsersWrite : Permissions.UsersWrite] }),
   );
   protected readonly isSelf = computed(
     () => this.isEdit() && this.detail()?.id === this.store.user()?.id,

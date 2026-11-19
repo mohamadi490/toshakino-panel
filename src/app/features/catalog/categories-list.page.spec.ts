@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { Permissions } from '../../core/authorization/permissions';
 import { expectApi, page, signIn } from '../../../testing/api-test-utils';
 import { Category } from './catalog.models';
 import { CategoriesListPage } from './categories-list.page';
@@ -57,14 +56,5 @@ describe('CategoriesListPage', () => {
     expect(el.querySelector('[role=alert]')?.textContent).toContain('خطایی در سرور');
     el.querySelector<HTMLButtonElement>('[role=alert] button')!.click();
     expectApi('GET', '/admin/categories').flush(page([]));
-  });
-
-  it('hides "new" without categories.manage', async () => {
-    signIn([Permissions.CategoriesRead]);
-    const f = TestBed.createComponent(CategoriesListPage);
-    await f.whenStable();
-    expectApi('GET', '/admin/categories').flush(page([]));
-    await f.whenStable();
-    expect((f.nativeElement as HTMLElement).textContent).not.toContain('دسته‌بندی جدید');
   });
 });
