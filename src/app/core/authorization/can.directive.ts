@@ -2,7 +2,7 @@ import { Directive, TemplateRef, ViewContainerRef, effect, inject, input } from 
 import { AuthStore } from '../auth/auth.store';
 import { PermissionRequirement } from './permissions';
 
-/** Structural directive: `<button *appCan="{ all: [Permissions.ProductsCreate] }">`. UX only. */
+/** Structural directive: `<button *appCan="{ all: [Permissions.ProductsWrite] }">`. UX only. */
 @Directive({ selector: '[appCan]' })
 export class CanDirective {
   private readonly store = inject(AuthStore);

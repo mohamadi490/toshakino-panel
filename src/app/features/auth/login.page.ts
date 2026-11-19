@@ -3,7 +3,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiError } from '../../core/api/api-error';
 import { AuthService } from '../../core/auth/auth.service';
-import { BrandService } from '../../core/brand/brand.service';
 import { ButtonComponent } from '../../shared/ui/button';
 
 @Component({
@@ -69,7 +68,6 @@ import { ButtonComponent } from '../../shared/ui/button';
 export class LoginPage {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
-  private readonly brand = inject(BrandService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -98,7 +96,6 @@ export class LoginPage {
     this.error.set(null);
     this.auth.login(this.form.getRawValue()).subscribe({
       next: () => {
-        this.brand.load().subscribe();
         const target = this.safeReturnUrl(this.route.snapshot.queryParamMap.get('returnUrl'));
         void this.router.navigateByUrl(target);
       },

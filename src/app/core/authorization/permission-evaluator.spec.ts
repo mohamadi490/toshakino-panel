@@ -9,9 +9,9 @@ describe('satisfies', () => {
     expect(satisfies(granted, { all: [Permissions.ProductsRead, Permissions.OrdersRead] })).toBe(
       true,
     );
-    expect(
-      satisfies(granted, { all: [Permissions.ProductsRead, Permissions.ProductsCreate] }),
-    ).toBe(false);
+    expect(satisfies(granted, { all: [Permissions.ProductsRead, Permissions.ProductsWrite] })).toBe(
+      false,
+    );
   });
   it('requires at least one permission in `any`', () => {
     expect(satisfies(granted, { any: [Permissions.UsersRead, Permissions.OrdersRead] })).toBe(true);

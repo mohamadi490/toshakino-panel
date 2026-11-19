@@ -1,8 +1,7 @@
 /*
- * Colour themes. Brand overrides (--brand-*) are injected at runtime by
- * BrandService from the admin brand settings; the fallbacks below are the
- * safe default palette that keeps the UI readable when the API fails.
- * Appearance (light/dark) only toggles [data-theme] and never touches --brand-*.
+ * Colour themes. The backend contract has no brand colours (site settings only hold name,
+ * logo and contact data), so the palette is fixed here. Appearance (light/dark) only toggles
+ * [data-theme].
  */
 :root,
 :root[data-theme='light'] {
@@ -14,10 +13,10 @@
   --ds-text-muted: #565c76;
   --ds-border: #dde0ec;
 
-  --ds-primary: var(--brand-primary, #3f4c9a);
+  --ds-primary: #3f4c9a;
   --ds-primary-contrast: #ffffff;
   --ds-primary-soft: color-mix(in srgb, var(--ds-primary) 12%, var(--ds-surface));
-  --ds-secondary: var(--brand-secondary, #2f7f86);
+  --ds-secondary: #2f7f86;
   --ds-secondary-contrast: #ffffff;
 
   --ds-success: #1e7f4f;
@@ -43,10 +42,10 @@
   --ds-text-muted: #9ca2c0;
   --ds-border: #2b3154;
 
-  --ds-primary: var(--brand-primary-dark, #8c9bff);
+  --ds-primary: #8c9bff;
   --ds-primary-contrast: #0e1120;
   --ds-primary-soft: color-mix(in srgb, var(--ds-primary) 18%, var(--ds-surface));
-  --ds-secondary: var(--brand-secondary-dark, #5fc0c8);
+  --ds-secondary: #5fc0c8;
   --ds-secondary-contrast: #0e1120;
 
   --ds-success: #5fd196;

@@ -35,7 +35,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
     label: 'دسته‌بندی‌ها',
     route: '/catalog/categories',
     icon: 'folder',
-    permissions: { all: [Permissions.CategoriesRead] },
+    permissions: { all: [Permissions.CategoriesWrite] },
   },
   {
     id: 'users',
