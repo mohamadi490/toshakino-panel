@@ -176,10 +176,26 @@ describe('RoleFormPage', () => {
     await f.whenStable();
   });
 
-  it('edit: warns on system roles and shows role_protected from the server', async () => {
+  it('edit: system roles have a locked name and a warning; other fields stay editable', async () => {
     const { f, el } = await edit(role({ isSystem: true }));
-    expect(el.textContent).toContain('نقش سیستمی');
-    fill(el, '#name', 'نام جدید');
+    expect(el.textContent).toContain('نام ثابت دارد');
+    expect(el.querySelector<HTMLInputElement>('#name')!.disabled).toBe(true);
+    expect(el.querySelector<HTMLTextAreaElement>('#description')!.disabled).toBe(false);
+    vi.spyOn(TestBed.inject(Router), 'navigate').mockResolvedValue(true);
+    fill(el, '#description', 'توضیح جدید');
+    el.querySelector('form')!.dispatchEvent(new Event('submit'));
+    const req = expectApi('PATCH', '/admin/roles/5');
+    expect(req.request.body).toEqual({ description: 'توضیح جدید' }); // the locked name is never sent
+    req.flush({ data: role({ isSystem: true }) });
+    await f.whenStable();
+  });
+
+  it('edit: shows role_protected from the server in Persian', async () => {
+    const { f, el } = await edit(role({ isSystem: true }));
+    el.querySelectorAll<HTMLInputElement>('fieldset')[0]!
+      .querySelectorAll<HTMLInputElement>('input[type=checkbox]')[2]!
+      .click();
+    await f.whenStable();
     el.querySelector('form')!.dispatchEvent(new Event('submit'));
     expectApi('PATCH', '/admin/roles/5').flush(
       { code: 'role_protected' },
@@ -189,7 +205,7 @@ describe('RoleFormPage', () => {
     expect(el.textContent).toContain('نقش سیستمی قابل تغییر یا حذف نیست.');
   });
 
-  it('edit: is read-only without roles.update', async () => {
+  it('edit: is read-only without roles.write', async () => {
     const { el } = await edit(role(), [Permissions.RolesRead]);
     expect(el.querySelector<HTMLInputElement>('#name')!.disabled).toBe(true);
     expect(el.querySelector('button[type=submit]')).toBeNull();

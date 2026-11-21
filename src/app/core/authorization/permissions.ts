@@ -1,41 +1,33 @@
 /**
- * Single source of truth for permission keys (must stay aligned with the backend
- * Permission Registry). Use `Permissions.X` everywhere - never repeat raw strings.
+ * Permission codes exactly as registered by the backend (identity/permissions.py), confirmed in
+ * docs/contracts/backend-answers.md (Q1 + appendix A). The live list is `GET /admin/permissions`;
+ * `super_admin` always has all of them. Use `Permissions.X` everywhere - never repeat raw strings.
+ *
+ * NOTE the names are NOT uniform `<resource>.<action>`: orders use `orders.update`, categories AND
+ * brands use `categories.write` (there is no `categories.read`), media only has `media.write`
+ * (it also covers listing), site/home settings use `content.*`, stock-display uses `settings.*`.
  */
 export const Permissions = {
-  UsersRead: 'users.read',
-  UsersCreate: 'users.create',
-  UsersUpdate: 'users.update',
-  UsersDisable: 'users.disable',
-  RolesRead: 'roles.read',
-  RolesCreate: 'roles.create',
-  RolesUpdate: 'roles.update',
-  RolesAssign: 'roles.assign',
-  RolesDelete: 'roles.delete',
   ProductsRead: 'products.read',
-  ProductsCreate: 'products.create',
-  ProductsUpdate: 'products.update',
-  ProductsPublish: 'products.publish',
-  CategoriesRead: 'categories.read',
-  CategoriesManage: 'categories.manage',
-  InventoryRead: 'inventory.read',
-  InventoryAdjust: 'inventory.adjust',
+  ProductsWrite: 'products.write',
+  CategoriesWrite: 'categories.write',
   OrdersRead: 'orders.read',
-  OrdersUpdateStatus: 'orders.update_status',
-  OrdersCancel: 'orders.cancel',
-  CustomersRead: 'customers.read',
-  CustomersUpdate: 'customers.update',
+  OrdersUpdate: 'orders.update',
+  UsersRead: 'users.read',
+  UsersWrite: 'users.write',
+  RolesRead: 'roles.read',
+  RolesWrite: 'roles.write',
+  OutboxRead: 'outbox.read',
+  OutboxWrite: 'outbox.write',
+  ShippingRead: 'shipping.read',
+  ShippingWrite: 'shipping.write',
+  SettingsRead: 'settings.read',
+  SettingsWrite: 'settings.write',
   ContentRead: 'content.read',
-  ContentCreate: 'content.create',
-  ContentUpdate: 'content.update',
-  ContentPublish: 'content.publish',
-  BrandSiteRead: 'brand.site.read',
-  BrandSiteUpdate: 'brand.site.update',
-  BrandAdminRead: 'brand.admin.read',
-  BrandAdminUpdate: 'brand.admin.update',
-  PaymentsRead: 'payments.read',
-  PaymentsRefund: 'payments.refund',
-  ReportsRead: 'reports.read',
+  ContentWrite: 'content.write',
+  MediaWrite: 'media.write',
+  DashboardRead: 'dashboard.read',
+  SystemRead: 'system.read',
 } as const;
 
 export type Permission = (typeof Permissions)[keyof typeof Permissions];

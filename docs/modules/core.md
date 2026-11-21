@@ -33,14 +33,33 @@
 - با ۴۰۱ یک بار refresh و تکرار؛ شکست refresh ← پایان نشست و `/login?reason=expired`؛ ۴۰۳ هرگز logout نمی‌کند.
 - نام نمایشی کاربر: `userDisplayName` (fullName ← username ← email ← mobile ← `#id`).
 
-## ۴) مجوزها
-منو، روت‌ها و دکمه‌ها از `permissions` پاسخ `/auth/me` ساخته می‌شوند (UX؛ مرجع سرور است). **کد مجوزها هنوز در قرارداد نیست** (Q1)؛ رجیستری `core/authorization/permissions.ts` فعلاً حدسی است و در PR کاربران/نقش‌ها (B1) با کاتالوگ واقعی تطبیق داده می‌شود. هر روت باید `canActivate: [permissionGuard]` و `data.permissions` داشته باشد و تست `navigation.consistency.spec.ts` تطابق منو و روت را تضمین می‌کند.
+## ۴) مجوزها (تأییدشده توسط بک‌اند)
+منو، روت‌ها و دکمه‌ها از `permissions` پاسخ `/auth/me` ساخته می‌شوند (UX؛ مرجع سرور است و `super_admin` همه را دارد). رجیستری در `core/authorization/permissions.ts`؛ فهرست زنده: `GET /admin/permissions`.
+
+| ناحیه | خواندن | نوشتن |
+|---|---|---|
+| کاربران | `users.read` | `users.write` |
+| نقش‌ها و مجوزها | `roles.read` | `roles.write` |
+| دسته‌ها و برندها | `categories.write` ⚠️ | `categories.write` |
+| محصولات، Variantها، ویژگی‌ها | `products.read` | `products.write` |
+| نمایش موجودی (`settings/stock-display`) | `settings.read` | `settings.write` |
+| سفارش‌ها (فهرست) | `orders.read` | — |
+| تغییر وضعیت سفارش، `expire-unpaid` | — | `orders.update` |
+| ارسال، استان/شهر | `shipping.read` | `shipping.write` |
+| صفحات، تنظیمات سایت/صفحه اصلی | `content.read` | `content.write` |
+| رسانه (فهرست/آپلود/حذف) | `media.write` ⚠️ | `media.write` |
+| داشبورد | `dashboard.read` | — |
+| سیستم | `system.read` | — |
+| outbox | `outbox.read` | `outbox.write` |
+⚠️ جای مجوز جداگانه «خواندن» ندارد؛ منوی مربوط با مجوز نوشتن کنترل می‌شود.
+
+نکته: نقش پیش‌فرض `admin` همه این‌ها را ندارد (بدون `roles.*`، `users.write`، `outbox.*`، `system.read`)، پس هیچ بخشی نباید در دسترس فرض شود. داشبورد برای هر کارمند باز است و ویجت‌هایش با `dashboard.read` کنترل می‌شود.
 
 ## ۵) تست‌ها
 `api-error.spec` (نگاشت code/field/trace/Retry-After/وضعیت‌ها)، `error-messages.spec` (پوشش همه کدهای مستند)، `request-id.interceptor.spec`، `auth.service.spec` (login/refresh single-flight/401/403/logout/restore با مسیرهای واقعی)، `auth.store.spec`، `money.spec`، `paged-list.spec`.
 
 ## ۶) محدودیت‌ها / سؤال‌های باز
-Q1 (کد مجوزها)، Q2 (CSRF کوکی refresh)، Q8 (کدهای خطای سطح فیلد). ← `docs/open-questions.md`.
+همه پاسخ داده شد؛ تصمیم استقرار Q2 (پنل و API باید same-site باشند) در `docs/open-questions.md` و `docs/deployment.md`.
 
 ## ۷) تغییرات ناسازگار نسبت به نسخه پیش از قرارداد
-پول ریال → تومان؛ `meta` → `pagination`؛ `detail` → پیام بر اساس `code`؛ مسیر ورود؛ مدل کاربر؛ حذف هدر CSRF؛ حذف ماژول‌های `customers` و `inventory` (endpoint ندارند؛ موجودی در B7 از روی Variantها بازطراحی می‌شود).
+پول ریال → تومان؛ `meta` → `pagination`؛ `detail` → پیام بر اساس `code`؛ مسیر ورود؛ مدل کاربر؛ حذف هدر CSRF؛ حذف `BrandService` (رنگ برند در قرارداد نیست)؛ حذف ماژول‌های `customers` و `inventory` (endpoint ندارند؛ موجودی در B7 از روی Variantها بازطراحی می‌شود).

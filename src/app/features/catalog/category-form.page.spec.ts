@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
-import { Permissions } from '../../core/authorization/permissions';
 import { expectApi, page, signIn } from '../../../testing/api-test-utils';
 import { Category } from './catalog.models';
 import { CategoryFormPage } from './category-form.page';
@@ -115,24 +114,5 @@ describe('CategoryFormPage', () => {
     expect((f.nativeElement as HTMLElement).querySelector<HTMLInputElement>('#slug')!.value).toBe(
       'a',
     );
-  });
-
-  it('is read-only without categories.manage and reports an unknown id', async () => {
-    signIn([Permissions.CategoriesRead]);
-    const f = TestBed.createComponent(CategoryFormPage);
-    f.componentRef.setInput('id', 'a');
-    await f.whenStable();
-    expectApi('GET', '/admin/categories').flush(page([cat('a', null)]));
-    await f.whenStable();
-    const el = f.nativeElement as HTMLElement;
-    expect(el.querySelector<HTMLInputElement>('#title')!.disabled).toBe(true);
-    expect(el.querySelector('button[type=submit]')).toBeNull();
-
-    const g = TestBed.createComponent(CategoryFormPage);
-    g.componentRef.setInput('id', 'nope');
-    await g.whenStable();
-    expectApi('GET', '/admin/categories').flush(page([]));
-    await g.whenStable();
-    expect((g.nativeElement as HTMLElement).textContent).toContain('پیدا نشد');
   });
 });

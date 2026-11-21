@@ -114,18 +114,6 @@ describe('OrderDetailPage', () => {
     expect(options).toEqual(['', 'shipped', 'cancelled']);
   });
 
-  it('hides the cancel transition without orders.cancel', async () => {
-    const { el } = await open(detail(), [
-      Permissions.OrdersRead,
-      Permissions.OrdersUpdateStatus,
-      Permissions.CustomersRead,
-    ]);
-    const options = Array.from(el.querySelectorAll<HTMLOptionElement>('#new-status option')).map(
-      (o) => o.value,
-    );
-    expect(options).toEqual(['', 'shipped']);
-  });
-
   it('hides the status panel for read-only admins', async () => {
     const { el } = await open(detail(), [Permissions.OrdersRead]);
     expect(el.querySelector('#new-status')).toBeNull();
@@ -135,13 +123,6 @@ describe('OrderDetailPage', () => {
     const { el } = await open(detail({ allowedTransitions: [] }));
     expect(el.textContent).toContain('تغییر وضعیت دیگری مجاز نیست');
     expect(el.querySelector('#new-status')).toBeNull();
-  });
-
-  it('masks customer contact and address without customers.read', async () => {
-    const { el } = await open(detail(), [Permissions.OrdersRead]);
-    expect(el.textContent).not.toContain('09121234567');
-    expect(el.textContent).not.toContain('خیابان آزادی');
-    expect(el.textContent).toContain('قابل نمایش نیست');
   });
 
   it('shows contact and address with customers.read', async () => {

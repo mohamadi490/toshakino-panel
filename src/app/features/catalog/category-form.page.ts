@@ -202,7 +202,7 @@ export class CategoryFormPage {
   }));
 
   protected readonly canSave = computed(() =>
-    this.store.can({ all: [Permissions.CategoriesManage] }),
+    this.store.can({ all: [Permissions.CategoriesWrite] }),
   );
 
   /** A category cannot become its own parent or move under one of its descendants. */

@@ -14,7 +14,7 @@ export const CATALOG_ROUTES: Routes = [
   {
     path: 'products/new',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.ProductsCreate] } },
+    data: { permissions: { all: [Permissions.ProductsWrite] } },
     loadComponent: () => import('./product-form.page').then((m) => m.ProductFormPage),
     title: 'محصول جدید | تشکینو',
   },
@@ -28,21 +28,21 @@ export const CATALOG_ROUTES: Routes = [
   {
     path: 'categories',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesRead] } },
+    data: { permissions: { all: [Permissions.CategoriesWrite] } },
     loadComponent: () => import('./categories-list.page').then((m) => m.CategoriesListPage),
     title: 'دسته‌بندی‌ها | تشکینو',
   },
   {
     path: 'categories/new',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesManage] } },
+    data: { permissions: { all: [Permissions.CategoriesWrite] } },
     loadComponent: () => import('./category-form.page').then((m) => m.CategoryFormPage),
     title: 'دسته‌بندی جدید | تشکینو',
   },
   {
     path: 'categories/:id',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesRead] } },
+    data: { permissions: { all: [Permissions.CategoriesWrite] } },
     loadComponent: () => import('./category-form.page').then((m) => m.CategoryFormPage),
     title: 'ویرایش دسته‌بندی | تشکینو',
   },

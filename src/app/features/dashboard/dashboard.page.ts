@@ -194,12 +194,12 @@ export class DashboardPage {
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
 
-  protected readonly canView = computed(() => this.store.can({ all: [Permissions.ReportsRead] }));
+  protected readonly canView = computed(() => this.store.can({ all: [Permissions.DashboardRead] }));
   protected readonly canSeeOrders = computed(() =>
     this.store.can({ all: [Permissions.OrdersRead] }),
   );
   protected readonly canSeeInventory = computed(() =>
-    this.store.can({ all: [Permissions.InventoryRead] }),
+    this.store.can({ all: [Permissions.ProductsRead] }),
   );
 
   protected readonly series = computed<BarDatum[]>(() =>

@@ -34,7 +34,7 @@ describe('ProductsListPage', () => {
     signIn(perms);
     const f = TestBed.createComponent(ProductsListPage);
     await f.whenStable();
-    if (perms.includes(Permissions.CategoriesRead))
+    if (perms.includes(Permissions.CategoriesWrite))
       expectApi('GET', '/admin/categories').flush(page([]));
     const req = expectApi('GET', '/admin/products');
     req.flush(page(items));

@@ -14,7 +14,7 @@ export const ACCESS_ROUTES: Routes = [
   {
     path: 'users/new',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.UsersCreate] } },
+    data: { permissions: { all: [Permissions.UsersWrite] } },
     loadComponent: () => import('./user-form.page').then((m) => m.UserFormPage),
     title: 'کاربر جدید | تشکینو',
   },
@@ -35,7 +35,7 @@ export const ACCESS_ROUTES: Routes = [
   {
     path: 'roles/new',
     canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.RolesCreate] } },
+    data: { permissions: { all: [Permissions.RolesWrite] } },
     loadComponent: () => import('./role-form.page').then((m) => m.RoleFormPage),
     title: 'نقش جدید | تشکینو',
   },

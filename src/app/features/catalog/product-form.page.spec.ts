@@ -62,7 +62,7 @@ describe('ProductFormPage', () => {
     const f = TestBed.createComponent(ProductFormPage);
     f.componentRef.setInput('id', 'p1');
     await f.whenStable();
-    if (perms.includes(Permissions.CategoriesRead))
+    if (perms.includes(Permissions.CategoriesWrite))
       expectApi('GET', '/admin/categories').flush(page([]));
     expectApi('GET', '/admin/products/p1').flush({ data: d });
     await f.whenStable();

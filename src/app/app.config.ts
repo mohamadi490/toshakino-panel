@@ -14,7 +14,6 @@ import { errorInterceptor } from './core/api/error.interceptor';
 import { loadingInterceptor } from './core/api/loading.interceptor';
 import { requestIdInterceptor } from './core/api/request-id.interceptor';
 import { AuthService } from './core/auth/auth.service';
-import { BrandService } from './core/brand/brand.service';
 import { AppConfig } from './core/config/app-config';
 import { GlobalErrorHandler } from './core/error-handling/global-error-handler';
 import { ThemeService } from './core/theme/theme.service';
@@ -39,11 +38,8 @@ export const appConfig: ApplicationConfig = {
       inject(ThemeService); // apply appearance immediately
       await inject(AppConfig).load();
       const auth = inject(AuthService);
-      const brand = inject(BrandService);
-      auth.registerSessionCleanup(() => brand.reset());
       // Restore session through the HttpOnly refresh cookie; failure => anonymous, never a crash.
-      const restored = await firstValueFrom(auth.restoreSession());
-      if (restored) await firstValueFrom(brand.load());
+      await firstValueFrom(auth.restoreSession());
     }),
   ],
 };

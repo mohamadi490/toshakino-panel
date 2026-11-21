@@ -20,7 +20,7 @@ describe('AuthStore', () => {
     store.setSession(testUser([Permissions.OrdersRead]));
     expect(store.isAuthenticated()).toBe(true);
     expect(store.can({ all: [Permissions.OrdersRead] })).toBe(true);
-    expect(store.can({ all: [Permissions.OrdersCancel] })).toBe(false);
+    expect(store.can({ all: [Permissions.OrdersUpdate] })).toBe(false);
   });
 
   it('clear() wipes token, user and permissions', () => {

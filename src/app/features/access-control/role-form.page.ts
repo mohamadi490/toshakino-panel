@@ -49,7 +49,7 @@ import { groupPermissions } from './access.models';
         }
         @if (role()?.isSystem) {
           <p class="mb-4 rounded-md bg-info-soft p-3 text-sm text-info" role="status">
-            این یک نقش سیستمی است؛ ممکن است سرور تغییر آن را نپذیرد.
+            نقش سیستمی (super_admin و customer) نام ثابت دارد و قابل حذف نیست.
           </p>
         }
 
@@ -147,7 +147,7 @@ export class RoleFormPage {
   protected readonly saving = signal(false);
 
   protected readonly canSave = computed(() =>
-    this.store.can({ all: [this.isEdit() ? Permissions.RolesUpdate : Permissions.RolesCreate] }),
+    this.store.can({ all: [this.isEdit() ? Permissions.RolesWrite : Permissions.RolesWrite] }),
   );
   protected readonly groups = computed(() => groupPermissions(this.catalog()));
 
@@ -185,6 +185,8 @@ export class RoleFormPage {
           description: found.description ?? '',
           isStaff: found.isStaff,
         });
+        // Backend: renaming or deleting a system role answers `role_protected`.
+        if (found.isSystem) this.form.controls.name.disable();
       },
       error: (e: unknown) => this.loadError.set(ApiError.from(e).message),
     });

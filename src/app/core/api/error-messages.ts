@@ -75,6 +75,23 @@ export const ERROR_MESSAGES: Readonly<Record<string, string>> = {
   invalid_city: 'شهر انتخاب‌شده معتبر نیست.',
   option_value_mismatch: 'مقدار گزینه با ویژگی انتخاب‌شده هم‌خوان نیست.',
   city_province_mismatch: 'شهر با استان انتخاب‌شده هم‌خوان نیست.',
+  // cart / checkout (storefront codes can still surface through shared endpoints)
+  cart_conflict: 'سبد خرید با وضعیت فعلی تداخل دارد.',
+  cart_item_not_found: 'آیتم سبد خرید پیدا نشد.',
+  idempotency_key_reused: 'این کلید درخواست قبلاً با اطلاعات دیگری استفاده شده است.',
+  shipping_unavailable: 'برای این مقصد روش ارسالی در دسترس نیست.',
+  address_not_found: 'آدرس پیدا نشد.',
+  address_limit_reached: 'سقف تعداد آدرس‌ها پر شده است.',
+  // media (413/422 included)
+  media_not_found: 'فایل رسانه پیدا نشد.',
+  media_empty: 'فایل انتخاب‌شده خالی است.',
+  media_too_large: 'حجم فایل از ۵ مگابایت بیشتر است.',
+  media_unsupported_type: 'فقط تصویر JPEG، PNG، GIF یا WebP مجاز است.',
+  // pages / outbox
+  page_not_found: 'صفحه پیدا نشد.',
+  page_slug_taken: 'این اسلاگ برای صفحه دیگری استفاده شده است.',
+  outbox_event_not_found: 'رویداد پیدا نشد.',
+  outbox_event_not_failed: 'فقط رویدادهای ناموفق قابل تلاش مجدد هستند.',
   // 429 / 5xx
   rate_limited: 'تعداد درخواست‌ها زیاد است. کمی بعد دوباره تلاش کنید.',
   internal_error: 'خطایی در سرور رخ داد. لطفاً بعداً تلاش کنید.',
@@ -85,6 +102,7 @@ export const ERROR_MESSAGES: Readonly<Record<string, string>> = {
 /** Conflict codes that belong to one form field although the API returns no `fieldErrors` for them. */
 export const CODE_TO_FIELD: Readonly<Record<string, string>> = {
   slug_taken: 'slug',
+  page_slug_taken: 'slug',
   sku_taken: 'sku',
   email_taken: 'email',
   username_taken: 'username',
@@ -107,6 +125,7 @@ export const FIELD_ERROR_MESSAGES: Readonly<Record<string, string>> = {
   string_pattern_mismatch: 'قالب مقدار واردشده معتبر نیست.',
   greater_than_equal: 'مقدار واردشده کمتر از حد مجاز است.',
   less_than_equal: 'مقدار واردشده بیشتر از حد مجاز است.',
+  value_error: 'مقدار واردشده معتبر نیست.',
   int_parsing: 'یک عدد صحیح وارد کنید.',
 };
 
