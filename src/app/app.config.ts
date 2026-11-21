@@ -35,9 +35,13 @@ export const appConfig: ApplicationConfig = {
       ]),
     ),
     provideAppInitializer(async () => {
-      inject(ThemeService); // apply appearance immediately
-      await inject(AppConfig).load();
+      // inject() only works synchronously: every dependency must be resolved BEFORE the first
+      // `await`, otherwise Angular throws NG0203 (injection context is lost after awaiting).
+      const config = inject(AppConfig);
       const auth = inject(AuthService);
+      inject(ThemeService); // apply appearance immediately
+
+      await config.load();
       // Restore session through the HttpOnly refresh cookie; failure => anonymous, never a crash.
       await firstValueFrom(auth.restoreSession());
     }),
