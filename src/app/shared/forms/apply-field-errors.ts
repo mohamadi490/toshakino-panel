@@ -25,6 +25,8 @@ const MESSAGES: Record<string, (e: unknown) => string> = {
   minlength: (e) => `حداقل ${(e as { requiredLength: number }).requiredLength} کاراکتر وارد کنید.`,
   maxlength: (e) => `حداکثر ${(e as { requiredLength: number }).requiredLength} کاراکتر مجاز است.`,
   contact: () => 'حداقل یکی از ایمیل یا موبایل را وارد کنید.',
+  url: () => 'آدرس باید با http:// یا https:// شروع شود.',
+  integer: () => 'یک عدد صحیح در بازه مجاز وارد کنید.',
   toman: () => 'مبلغ معتبر به تومان وارد کنید (فقط عدد).',
   slug: () => 'فقط حروف کوچک انگلیسی، عدد و خط تیره (مثال: soft-mattress).',
 };
