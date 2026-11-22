@@ -19,3 +19,5 @@ Dashboard additions: range param + real figures, status breakdown with raw fallb
 Contract-core (A1): API error mapping by code (Persian messages for every documented code, field errors, trace id, Retry-After), X-Request-Id, admin auth against `/admin/auth/*` (no custom headers), Toman formatting/parsing, nav/route consistency.
 
 Access-control v2 (B1): see docs/modules/access-control.md (41 tests).
+
+Taxonomy (B2): see docs/modules/catalog-taxonomy.md (63 tests + shared tree/patch/validator tests).
