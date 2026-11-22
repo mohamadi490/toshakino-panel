@@ -38,6 +38,20 @@ export const NAV_ITEMS: readonly NavItem[] = [
     permissions: { all: [Permissions.CategoriesWrite] },
   },
   {
+    id: 'brands',
+    label: 'برندها',
+    route: '/catalog/brands',
+    icon: 'tag',
+    permissions: { all: [Permissions.CategoriesWrite] },
+  },
+  {
+    id: 'attributes',
+    label: 'ویژگی‌ها',
+    route: '/catalog/attributes',
+    icon: 'sliders',
+    permissions: { all: [Permissions.ProductsRead] },
+  },
+  {
     id: 'users',
     label: 'کاربران پنل',
     route: '/access/users',

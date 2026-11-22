@@ -25,25 +25,4 @@ export const CATALOG_ROUTES: Routes = [
     loadComponent: () => import('./product-form.page').then((m) => m.ProductFormPage),
     title: 'ویرایش محصول | تشکینو',
   },
-  {
-    path: 'categories',
-    canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesWrite] } },
-    loadComponent: () => import('./categories-list.page').then((m) => m.CategoriesListPage),
-    title: 'دسته‌بندی‌ها | تشکینو',
-  },
-  {
-    path: 'categories/new',
-    canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesWrite] } },
-    loadComponent: () => import('./category-form.page').then((m) => m.CategoryFormPage),
-    title: 'دسته‌بندی جدید | تشکینو',
-  },
-  {
-    path: 'categories/:id',
-    canActivate: [permissionGuard],
-    data: { permissions: { all: [Permissions.CategoriesWrite] } },
-    loadComponent: () => import('./category-form.page').then((m) => m.CategoryFormPage),
-    title: 'ویرایش دسته‌بندی | تشکینو',
-  },
 ];

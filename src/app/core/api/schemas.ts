@@ -20,3 +20,17 @@ export type RoleRead = S['RoleRead'];
 export type RoleCreate = S['RoleCreate'];
 export type RoleUpdate = S['RoleUpdate'];
 export type PermissionRead = S['PermissionRead'];
+
+export type PublishStatus = S['PublishStatus'];
+export type CategoryRead = S['CategoryRead'];
+export type CategoryCreate = S['CategoryCreate'];
+export type CategoryUpdate = S['CategoryUpdate'];
+export type BrandAdminRead = S['BrandAdminRead'];
+export type BrandCreate = S['BrandCreate'];
+export type BrandUpdate = S['BrandUpdate'];
+export type AttributeRead = S['AttributeRead'];
+export type AttributeCreate = S['AttributeCreate'];
+export type AttributeUpdate = S['AttributeUpdate'];
+export type AttributeValueInput = S['AttributeValueInput'];
+export type AttributeValueUpdate = S['AttributeValueUpdate'];
+export type AttributeValueRead = S['AttributeValueRead'];

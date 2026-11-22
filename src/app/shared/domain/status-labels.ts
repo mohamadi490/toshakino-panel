@@ -62,3 +62,9 @@ export const labelOf = (
 /** Cancelling is a separate permission (`orders.cancel`) from other status changes. */
 export const isCancelStatus = (key: StatusKey): boolean =>
   key === 'cancelled' || key === 'canceled';
+
+/** Publish state of categories, products and pages (contract enum `PublishStatus`). */
+export const PUBLISH_STATUS_LABELS: Record<string, string> = {
+  draft: 'پیش‌نویس',
+  published: 'منتشرشده',
+};

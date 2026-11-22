@@ -40,6 +40,11 @@ export class ApiClient {
     return this.http.put<ApiEnvelope<T>>(this.url(path), body).pipe(map((r) => r.data));
   }
 
+  /** DELETE that answers `{data}` (e.g. attribute value deletion returns the updated attribute). */
+  deleteWithBody<T>(path: string): Observable<T> {
+    return this.http.delete<ApiEnvelope<T>>(this.url(path)).pipe(map((r) => r.data));
+  }
+
   delete(path: string): Observable<void> {
     return this.http.delete<void>(this.url(path));
   }

@@ -4,7 +4,6 @@ import { ApiClient } from '../../core/api/api-client';
 import { ApiPage } from '../../core/api/api-types';
 import {
   Category,
-  CategoryWriteRequest,
   ProductDetail,
   ProductListQuery,
   ProductSummary,
@@ -18,12 +17,6 @@ export class CatalogApi {
   /** The agreed contract has no GET by id, so forms read from this (non-paginated-in-practice) list. */
   categories(): Observable<ApiPage<Category>> {
     return this.api.getPage<Category>('/admin/categories', { page: 1, pageSize: 500 });
-  }
-  createCategory(body: CategoryWriteRequest): Observable<Category> {
-    return this.api.post<Category>('/admin/categories', body);
-  }
-  updateCategory(id: string, body: Partial<CategoryWriteRequest>): Observable<Category> {
-    return this.api.patch<Category>(`/admin/categories/${encodeURIComponent(id)}`, body);
   }
 
   products(query: ProductListQuery): Observable<ApiPage<ProductSummary>> {

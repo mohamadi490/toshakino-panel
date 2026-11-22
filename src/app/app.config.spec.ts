@@ -23,15 +23,13 @@ describe('application bootstrap (appConfig providers)', () => {
   beforeEach(() => {
     vi.stubGlobal(
       'fetch',
-      vi
-        .fn()
-        .mockResolvedValue({
-          ok: true,
-          json: async () => ({
-            apiBaseUrl: 'https://api.tashkino.ir/api/v1',
-            environment: 'production',
-          }),
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          apiBaseUrl: 'https://api.tashkino.ir/api/v1',
+          environment: 'production',
         }),
+      }),
     );
     TestBed.configureTestingModule({
       providers: [...appConfig.providers, provideLocationMocks(), provideHttpClientTesting()],
