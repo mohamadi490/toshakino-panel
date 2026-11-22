@@ -6,7 +6,9 @@ export function blankToNull(value: string | null | undefined): string | null {
 
 /** Integer in [min, max] from a typed value (Persian digits allowed), or null when invalid/empty. */
 export function parseBoundedInt(value: unknown, min: number, max: number): number | null {
-  const v = String(value ?? '').trim().replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)));
+  const v = String(value ?? '')
+    .trim()
+    .replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)));
   if (!/^\d{1,9}$/.test(v)) return null;
   const n = Number(v);
   return n >= min && n <= max ? n : null;

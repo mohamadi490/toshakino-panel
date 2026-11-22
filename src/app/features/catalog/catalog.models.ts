@@ -23,18 +23,6 @@ export interface Category {
   productCount?: number;
 }
 
-export interface CategoryWriteRequest {
-  parentId: string | null;
-  slug: string;
-  title: string;
-  description: string | null;
-  status: PublishStatus;
-  sortOrder: number;
-  seoTitle: string | null;
-  seoDescription: string | null;
-  canonicalUrl: string | null;
-}
-
 /* ---------------- Products (ASSUMED contract) ---------------- */
 export interface ProductAttribute {
   name: string;

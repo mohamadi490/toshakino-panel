@@ -9,10 +9,20 @@ describe('blankToNull', () => {
 });
 
 describe('parseBoundedInt', () => {
-  it.each([['5', 0, 10, 5], ['۱۲', 0, 100, 12], ['0', 0, 10, 0], [' 7 ', 0, 10, 7]])('parses %s', (v, min, max, out) =>
-    expect(parseBoundedInt(v, min, max)).toBe(out));
-  it.each([['', 0, 10], ['-1', 0, 10], ['1.5', 0, 10], ['11', 0, 10], ['abc', 0, 10], [null, 0, 10]])('rejects %s', (v, min, max) =>
-    expect(parseBoundedInt(v, min, max)).toBeNull());
+  it.each([
+    ['5', 0, 10, 5],
+    ['۱۲', 0, 100, 12],
+    ['0', 0, 10, 0],
+    [' 7 ', 0, 10, 7],
+  ])('parses %s', (v, min, max, out) => expect(parseBoundedInt(v, min, max)).toBe(out));
+  it.each([
+    ['', 0, 10],
+    ['-1', 0, 10],
+    ['1.5', 0, 10],
+    ['11', 0, 10],
+    ['abc', 0, 10],
+    [null, 0, 10],
+  ])('rejects %s', (v, min, max) => expect(parseBoundedInt(v, min, max)).toBeNull());
 });
 
 describe('changedFields', () => {

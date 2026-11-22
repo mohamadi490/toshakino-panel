@@ -34,6 +34,21 @@ export const routes: Routes = [
         loadChildren: () => import('./features/orders/orders.routes').then((m) => m.ORDERS_ROUTES),
       },
       {
+        path: 'catalog/categories',
+        loadChildren: () =>
+          import('./features/taxonomy/taxonomy.routes').then((m) => m.CATEGORY_ROUTES),
+      },
+      {
+        path: 'catalog/brands',
+        loadChildren: () =>
+          import('./features/taxonomy/taxonomy.routes').then((m) => m.BRAND_ROUTES),
+      },
+      {
+        path: 'catalog/attributes',
+        loadChildren: () =>
+          import('./features/taxonomy/taxonomy.routes').then((m) => m.ATTRIBUTE_ROUTES),
+      },
+      {
         path: 'catalog',
         loadChildren: () =>
           import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES),

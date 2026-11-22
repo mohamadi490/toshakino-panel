@@ -1,6 +1,11 @@
 import { Route } from '@angular/router';
 import { ACCESS_ROUTES } from '../../features/access-control/access.routes';
 import { CATALOG_ROUTES } from '../../features/catalog/catalog.routes';
+import {
+  ATTRIBUTE_ROUTES,
+  BRAND_ROUTES,
+  CATEGORY_ROUTES,
+} from '../../features/taxonomy/taxonomy.routes';
 import { ORDERS_ROUTES } from '../../features/orders/orders.routes';
 import { ICON_NAMES } from '../../shared/ui/icon';
 import { NAV_ITEMS } from './navigation';
@@ -8,12 +13,17 @@ import { NAV_ITEMS } from './navigation';
 /** Lazy feature route trees, keyed by their mount point in app.routes.ts. */
 const FEATURES: Record<string, Route[]> = {
   '/orders': ORDERS_ROUTES,
+  '/catalog/categories': CATEGORY_ROUTES,
+  '/catalog/brands': BRAND_ROUTES,
+  '/catalog/attributes': ATTRIBUTE_ROUTES,
   '/catalog': CATALOG_ROUTES,
   '/access': ACCESS_ROUTES,
 };
 
 function findRoute(url: string): Route | undefined {
-  const mount = Object.keys(FEATURES).find((m) => url === m || url.startsWith(`${m}/`));
+  const mount = Object.keys(FEATURES)
+    .sort((a, b) => b.length - a.length)
+    .find((m) => url === m || url.startsWith(`${m}/`));
   if (!mount) return undefined;
   const rest = url.slice(mount.length).replace(/^\//, '');
   return FEATURES[mount]!.find(
@@ -28,6 +38,8 @@ describe('navigation consistency', () => {
       'orders',
       'products',
       'categories',
+      'brands',
+      'attributes',
       'users',
       'roles',
     ]);

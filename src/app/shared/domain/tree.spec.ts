@@ -1,11 +1,22 @@
 import { TreeItem, flattenTree, selfAndDescendantIds } from './tree';
 
-const n = (id: number, parentId: number | null, position = 0, name = `n${id}`): TreeItem => ({ id, parentId, position, name });
+const n = (id: number, parentId: number | null, position = 0, name = `n${id}`): TreeItem => ({
+  id,
+  parentId,
+  position,
+  name,
+});
 
 describe('tree', () => {
   it('orders parents before children, siblings by position then name, with depth', () => {
     const out = flattenTree([n(2, null, 2), n(1, null, 1), n(12, 1, 2), n(11, 1, 1), n(21, 2, 0)]);
-    expect(out.map((x) => `${x.item.id}:${x.depth}`)).toEqual(['1:0', '11:1', '12:1', '2:0', '21:1']);
+    expect(out.map((x) => `${x.item.id}:${x.depth}`)).toEqual([
+      '1:0',
+      '11:1',
+      '12:1',
+      '2:0',
+      '21:1',
+    ]);
   });
   it('sorts equal positions by Persian name', () => {
     const out = flattenTree([n(1, null, 0, 'ب'), n(2, null, 0, 'الف')]);

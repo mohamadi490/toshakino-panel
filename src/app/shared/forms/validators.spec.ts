@@ -15,7 +15,11 @@ describe('slugValidator', () => {
 import { httpUrlValidator } from './validators';
 
 describe('httpUrlValidator', () => {
-  it.each(['https://cdn.example.ir/a.png', 'http://x.y/z', ''])('accepts "%s"', (v) => expect(httpUrlValidator(new FormControl(v))).toBeNull());
-  it.each(['ftp://x', '/relative/path', 'https://', 'javascript:alert(1)', 'https://a b'])('rejects "%s"', (v) =>
-    expect(httpUrlValidator(new FormControl(v))).toEqual({ url: true }));
+  it.each(['https://cdn.example.ir/a.png', 'http://x.y/z', ''])('accepts "%s"', (v) =>
+    expect(httpUrlValidator(new FormControl(v))).toBeNull(),
+  );
+  it.each(['ftp://x', '/relative/path', 'https://', 'javascript:alert(1)', 'https://a b'])(
+    'rejects "%s"',
+    (v) => expect(httpUrlValidator(new FormControl(v))).toEqual({ url: true }),
+  );
 });

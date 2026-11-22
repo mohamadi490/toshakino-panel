@@ -19,7 +19,8 @@ export function flattenTree<T extends TreeItem>(items: readonly T[]): TreeNode<T
   const ids = new Set(items.map((c) => c.id));
   const children = new Map<number | null, T[]>();
   for (const c of items) {
-    const key = c.parentId !== null && ids.has(c.parentId) && c.parentId !== c.id ? c.parentId : null;
+    const key =
+      c.parentId !== null && ids.has(c.parentId) && c.parentId !== c.id ? c.parentId : null;
     children.set(key, [...(children.get(key) ?? []), c]);
   }
   const byOrder = (a: T, b: T) => a.position - b.position || a.name.localeCompare(b.name, 'fa');
@@ -37,7 +38,11 @@ export function flattenTree<T extends TreeItem>(items: readonly T[]): TreeNode<T
   walk(null, 0);
   // Pure cycles have no root; surface them instead of hiding data.
   for (const c of [...items].sort(byOrder)) {
-    if (!seen.has(c.id)) { seen.add(c.id); out.push({ item: c, depth: 0 }); walk(c.id, 1); }
+    if (!seen.has(c.id)) {
+      seen.add(c.id);
+      out.push({ item: c, depth: 0 });
+      walk(c.id, 1);
+    }
   }
   return out;
 }
