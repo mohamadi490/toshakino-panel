@@ -21,6 +21,7 @@ export type RoleCreate = S['RoleCreate'];
 export type RoleUpdate = S['RoleUpdate'];
 export type PermissionRead = S['PermissionRead'];
 
+export type MediaRead = S['MediaRead'];
 export type PublishStatus = S['PublishStatus'];
 export type CategoryRead = S['CategoryRead'];
 export type CategoryCreate = S['CategoryCreate'];

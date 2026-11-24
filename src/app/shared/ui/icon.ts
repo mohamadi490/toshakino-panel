@@ -24,6 +24,9 @@ const PATHS: Record<string, string> = {
   user: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 20a8 8 0 0 1 16 0',
   tag: 'M3 12V4h8l9 9-8 8-9-9Zm5-5.5h.01',
   sliders: 'M4 6h10m4 0h2M4 12h4m4 0h8M4 18h12m4 0h0M16 4v4M10 10v4M18 16v4',
+  image: 'M4 5h16v14H4zM4 15l4-4 4 4 3-3 5 5M9 9h.01',
+  upload: 'M12 16V4m0 0-4 4m4-4 4 4M4 16v4h16v-4',
+  copy: 'M9 9h11v11H9zM5 15V4h11',
 };
 
 export const ICON_NAMES: readonly string[] = Object.keys(PATHS);

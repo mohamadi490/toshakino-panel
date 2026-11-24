@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { AppConfig } from '../config/app-config';
 import { ApiEnvelope, ApiPage, ListQuery } from './api-types';
 
@@ -34,6 +34,21 @@ export class ApiClient {
     return this.http
       .patch<ApiEnvelope<T>>(this.url(path), body, { headers })
       .pipe(map((r) => r.data));
+  }
+
+  /**
+   * multipart/form-data upload with progress. Never set Content-Type by hand: the browser must add
+   * the multipart boundary. Emits `{progress}` events and finally `{progress: 100, data}`.
+   */
+  postForm<T>(path: string, form: FormData): Observable<{ progress: number; data?: T }> {
+    return this.http.post<ApiEnvelope<T>>(this.url(path), form, { reportProgress: true, observe: 'events' }).pipe(
+      map((ev): { progress: number; data?: T } | null => {
+        if (ev.type === HttpEventType.UploadProgress) return { progress: ev.total ? Math.round((ev.loaded / ev.total) * 100) : 0 };
+        if (ev.type === HttpEventType.Response) return ev.body ? { progress: 100, data: ev.body.data } : { progress: 100 };
+        return null;
+      }),
+      filter((x): x is { progress: number; data?: T } => x !== null),
+    );
   }
 
   put<T>(path: string, body: unknown): Observable<T> {
